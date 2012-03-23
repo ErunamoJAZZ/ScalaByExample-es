@@ -1,0 +1,130 @@
+Un primer ejemplo
+=================
+
+Como primer ejemplo, aquí está una implementación de un *Quicksort* en Scala.
+
+.. code-block:: scala
+
+    def sort(xs: Array[Int]) {
+      def swap(i: Int, j: Int) {
+        val t = xs(i); xs(i) = xs(j); xs(j) = t
+      }
+      def sort1(l: Int, r: Int) {
+        val pivot = xs((l + r) / 2)
+        var i = l; var j = r
+        while (i <= j) {
+          while (xs(i) < pivot) i += 1
+          while (xs(j) > pivot) j -= 1
+          if (i <= j) { 
+            swap(i, j)
+            i += 1
+            j -= 1
+          }
+        } 
+        if (l < j) sort1(l, j)
+        if (j < r) sort1(i, r)
+      }
+      sort1(0, xs.length - 1)
+    }
+
+
+
+La implementación luce muy similar a como se escribiría en Java o C. 
+Usamos los mismos operadores, y estructuras de control similares. Hay también algunas diferencias sintácticas menores, en particular:
+
+* Las definiciones comienzan con una palabra reservada. Con ``def`` comienzan las definiciones de las funciones, con ``var`` comienzan las definiciones de variables y con ``val`` comienzan las definiciones de valores (es decir, variables de solo lectura o inmutables).
+* El tipo de dato de un símbolo, se declara después del símbolo y dos puntos (``:``). La declaración del tipo de dato a menudo puede omitirse, ya que el compilador puede inferirlo del contexto.
+* Los tipos de arreglo se escriben ``Array[T]`` en lugar de ``T[]``, y las selecciones del arreglo se escriben ``a(i)`` en lugar de ``a[i]``.
+* Las funciones pueden anidarse dentro de otras funciones. Las funciones anidadas pueden tener acceso a parámetros y variables locales de las funciones donde están incluidas. Por ejemplo, el nombre del arreglo ``xs`` es visible tanto en la función ``swap``, como en la función ``sort1``, y por lo tanto no se requiere pasarselos como argumento.
+
+
+Hasta ahora, Scala luce como un lenguaje común y corriente, con algunas peculiaridades sintácticas. De hecho es posible escribir programas de una manera imperativa convencional o en estilo orientado a objetos sin ningún problema. Esto es importante porque es una de las cosas que hace fácil combinar componentes de Scala con componentes escritos en otros lenguajes dominantescomo Java, C# o Visual Basic.
+
+Sin embargo, también es posible escribir programas en un estilo que luzca completamente diferente. He aquí un *Quicksort* de nuevo, pero esta vez escrito en estilo funcional.
+
+.. code-block:: scala
+    
+    def sort(xs: Array[Int]): Array[Int] = {
+      if (xs.length <= 1) xs
+      else {
+        val pivot = xs(xs.length / 2)
+        Array.concat(
+          sort(xs filter (pivot >)),
+               xs filter (pivot ==),
+          sort(xs filter (pivot <)))
+      }
+    }
+
+
+
+El programa funcional captura la esencia del algoritmo *Quicksort* de una manera concisa:
+
+* Si el arreglo está vacío o consiste de un solo elemento, entonces ya está ordenado, así que se regresa inmediatamente.
+* Si el arreglo no está vacío ni es único, se selecciona un elemento a la mitad del arreglo como si fuera un pivote.
+* Se parte el arreglo en dos subarreglos conteniendo elementos que, respectivamente, sean menores y mayores que el elemento pivote, y un tercer arreglo que contiene los elementos igual al pivote (con el método ``filter``).
+* Se ordenan los primeros dos subarreglos por invocación recursiva de la función de ordenación. [#]_ 
+* El resultado se obtiene al acomodar los tres subarreglos juntos.
+
+
+.. [#] Esto no es exactamente lo que hace el algoritmo imperativo; el llamado posterior de la función, parte el arreglo en dos subarreglos conteniendo elementos menores o mayores o iguales al pivote.
+
+
+Tanto la implementación imperativa como la funcional tienen la misma complejidad asintótica - :math:`O(N;log(N))` en el caso promedio y :math:`O(N^2)` en el peor caso. Pero donde la implementación imperativa opera sobre el arreglo que le llega como argumento modificandolo, la implementación funcional regresa un nuevo arreglo acomodado y deja el arreglo que le llega como argumento sin ningún cambio. 
+La implementación funcional requiere más memoria transitiva que la imperativa.
+
+La implementación funcional hace parecer a Scala como si fuera un lenguaje que se especializa en operaciones funcionales sobre arreglos. De hecho, no es así; todas las operaciones utilizadas en el ejemplo son simples métodos de la clase *sequence* ``Seq[T]``, los cuales son parte de la biblioteca estándar de Scala, ella misma implementada en Scala. Debido a que los arreglos son instancias de ``Seq`` todos los métodos de *sequence* están disponibles para ellos.
+
+En particular, hay un método ``filter`` que toma como argumento una *función de predicado*. Esta función de predicado mapea los elementos del arreglo a valores *booleanos*. El resultado de ``filter`` es un arreglo consistente con todos los elementos del arreglo original para los cuales la función de predicado es verdadera (*true*, en ingles). El método ``filter`` de un objeto de tipo ``Array[T]`` tiene esta estructura:
+
+.. code-block:: scala
+    
+    def filter(p: T => Boolean): Array[T]
+
+
+
+Aquí, ``T => Boolean`` es del tipo de funciones que toma un elemento de tipo ``T`` y regresa un ``Boolean``. Las funciones como ``filter`` que toman otra función como argumento para regresar uno como resultado se llaman *funciones de orden superior* (*higher-order functions*, en inglés).
+
+Scala no distingue entre identificadores y nombres de operador. Un identificador puede ser tanto una secuencia de letras y dígitos que comiencen con una letra, o pueden ser una secuencia de caracteres especiales, tales como "``+``", "``*``", o "``:``". 
+Cualquier identificador puede usarse como un operador infijo en Scala.
+La operación binaria :math:`E;op;E'` se interpreta siempre como una llamada del método :math:`E.op(E')`. Esto también aplica para operadores infijos binarios los cuales comiencen con una letra. Por lo tanto, la expresión ``xs filter (pivot >)`` es equivalente a la llamada del método ``xs.filter(pivot >)``.
+
+En el programa *Quicksort*, a ``filter`` se aplica tres veces una función anónima como argumento. El primer argumento, :math:`pivot >`, representa una función que toma a :math:`x` como argumento y regresa el valor :math:`pivot > x`. Este es un ejemplo de una *función parcialmente aplicada* (*Partially applied function*, en inglés). 
+Otra manera equivalente de escribir esta función la cual muestra explícitamente al argumento faltante es ``x => pivot > x``.
+La función es anónima, es decir, no se define con un nombre. El tipo de parámetro ``x`` se omite porque el compilador de Scala puede inferirlo automáticamente del contexto donde la función se usa. Para resumir, ``xs.filter(pivot >)`` regresa una lista consistente con todos los elementos de la lista ``xs`` que sean más pequeños que ``pivot``.
+
+
+Al mirar de nuevo en detalle a la primera implementación imperativa de *Quicksort*, encontramos que muchos de los constructos de lenguaje utilizados en la segunda solución están también presentes, no obstante, en una forma disfrazada.
+
+Por ejemplo, los operadores binarios "estándar" tales como ``+``, ``-``, o ``<`` no se tratan de ninguna manera especial. Como ``append``, son métodos de sus operando izquierdo. Consecuentemente, la expresión ``i + 1`` se mira como la invocación ``i.+(1)`` del método ``+`` del valor entero ``x``.
+
+Por supuesto, un compilador es libre (y si es moderadamente inteligente, incluso se espera que lo haga) de reconocer el caso especial en al llamar al método ``+`` sobre argumentos enteros y generar código eficiente para ello en una línea.
+
+Para un diagnóstico de errores más eficiente y mejor, el ciclo ``while`` es un constructo primitivo en Scala. Pero en principio, bien podría haber sido una función predefinida. Aquí hay una posible implementación de él:
+
+.. code-block:: scala
+
+    def While (p: => Boolean) (s: => Unit) {
+      if (p) { s ; While(p)(s) }
+    }
+
+
+La función ``While`` toma como su primer parámetro una función de prueba, lo cual no toma parámetros y produce un valor *boolean*.
+Como segundo parámetro toma una función de comando la cual tampoco toma parámetros y produce un resultado del tipo ``Unit``. 
+``While`` invoca la función de comando mientras la función de prueba produce *true*.
+
+El tipado ``Unit`` de Scala corresponde a grandes rasgos al ``void`` en Java; se usa siempre que una función no regrese un resultado interesante. De hecho, como Scala es un lenguaje orientado a expresiones, una función siempre regresa algún resultado. Si no se da una expresión de regreso de forma explícita, se asume el valor ``()``, que se pronuncia "unit". Este valor es del tipo ``Unit``.
+Las funciones que regresan *Unit* también se llaman *procedimientos*.
+Aquí está una formulación más "orientada a expresiones" de la función ``swap`` en la primera implementación del *Quicksort*, que hace esto explicito:
+
+
+.. code-block:: scala
+    
+    def swap(i: Int, j: Int) {
+      val t = xs(i); xs(i) = xs(j); xs(j) = t
+      ()
+    }
+
+
+El valor que retorna esta función es simplemente su última expresión - la palabra clave ``return`` no es necesaria. Nótese que las funciones que regresan un valor explícito necesitan un "``=``" antes de definir su cuerpo o de definir sus expresiones.
+
+
