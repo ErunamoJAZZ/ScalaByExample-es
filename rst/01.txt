@@ -2,25 +2,48 @@ Introducción
 ============
 
 
-Scala es un lenguaje de programación que integra sin irregularidades los paradigmas de programación orientada a objetos y de programación funcional. Se diseñó para expresar patrones de programación comunes de una manera concisa, elegante y con tipado seguro. También introduce varias innovaciones en la construcción del lenguaje. Por ejemplo:
+Scala es un lenguaje de programación que integra sin irregularidades los 
+paradigmas de programación orientada a objetos y de programación funcional. 
+Se diseñó para expresar patrones de programación comunes de una manera concisa, 
+elegante y con tipado seguro. También introduce varias innovaciones en la 
+construcción del lenguaje. Por ejemplo:
 
-* Conceptos unificadores de tipos abstractos y composición de mezcla del los sistemas de objeto y módulo.
-* Los patrones concordantes sobre jerarquía unifican cómo tener acceso a información funcional y orientada a objetos. Esto simplifica enormemente el procesar árboles XML.
-* Una sintaxis flexible y un sistema de tipado que habilitan la construcción de bibliotecas avanzadas y nuevos lenguajes de dominio específico (DSL, por sus siglas en inglés, *Domain Specific Language*).
+* Conceptos unificadores de tipos abstractos y composición de mezcla del los 
+  sistemas de objeto y módulo.
+* Los patrones concordantes sobre jerarquía unifican cómo tener acceso a 
+  información funcional y orientada a objetos. Esto simplifica enormemente el 
+  procesar árboles XML.
+* Una sintaxis flexible y un sistema de tipado que habilitan la construcción de 
+  bibliotecas avanzadas y nuevos lenguajes de dominio específico (DSL, por sus 
+  siglas en inglés, *Domain Specific Language*).
 
-Al mismo tiempo, Scala es compatible con Java. Las bibliotecas de Java y los *Frameworks* escritos en el, se pueden utilizar sin código "pegamento" o declaraciones adicionales.
+Al mismo tiempo, Scala es compatible con Java. Las bibliotecas de Java y los 
+*Frameworks* escritos en el, se pueden utilizar sin código "pegamento" o 
+declaraciones adicionales.
 
-En este documento introduciremos Scala de una manera informal, mediante diferentes ejemplos prácticos.
+En este documento introduciremos Scala de una manera informal, mediante 
+diferentes ejemplos prácticos.
 
-Los capítulos 2 y 3 enfatizan algunas de las características que hacen a Scala un lenguaje tan interesante.
-Los siguientes capítulos le introducirán en los constructos del lenguaje de manera más cuidadosa, comenzando con las expresiones y funciones simples, luego trabajando sobre y mediante objetos y clases, listas y *streams*, estados mutables, concordancia de patrones, y pasando por ejemplos más complejos que muestran técnicas de programación bastante interesantes. La presente exposición informal tiene la intención de complementarse con el **Manual de Referencia del Lenguaje Scala**, el cual especifica Scala en una manera más detallada y precisa.
+Los capítulos 2 y 3 enfatizan algunas de las características que hacen a Scala 
+un lenguaje tan interesante.
+Los siguientes capítulos le introducirán en los constructos del lenguaje de 
+manera más cuidadosa, comenzando con las expresiones y funciones simples, luego 
+trabajando sobre y mediante objetos y clases, listas y *streams*, estados 
+mutables, concordancia de patrones, y pasando por ejemplos más complejos que 
+muestran técnicas de programación bastante interesantes. La presente exposición 
+informal tiene la intención de complementarse con el **Manual de Referencia del 
+Lenguaje Scala**, el cual especifica Scala en una manera más detallada y precisa.
 
 
 
 Reconocimiento
 --------------
 
-Estamos en gran deuda con el maravilloso libro *"Structure and Interpretation of Computer Programs"* \cite{abelson-sussman:structure} de Abelson y Sussman.
-Muchos de sus ejemplos y ejercicios también están presentes aquí. Por supuesto, al trabajar con nuestro lenguaje, se ha cambiado de Scheme a Scala en cada caso. Además, los ejemplos hacen uso de los constructos orientados a objetos donde es apropiado.
+Estamos en gran deuda con el maravilloso libro *"Structure and Interpretation 
+of Computer Programs"* \cite{abelson-sussman:structure} de Abelson y Sussman.
+Muchos de sus ejemplos y ejercicios también están presentes aquí. Por supuesto, 
+al trabajar con nuestro lenguaje, se ha cambiado de Scheme a Scala en cada caso. 
+Además, los ejemplos hacen uso de los constructos orientados a objetos donde es 
+apropiado.
 
 
