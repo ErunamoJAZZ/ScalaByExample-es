@@ -1,0 +1,178 @@
+Programando con Actores y Mensajes
+==================================
+
+
+Aquí tenemos un ejemplo que muestra un área de aplicación para la cual Scala 
+es particularmente bueno. Considere la tarea de implementar un servicio 
+electrónico de subastas. Usamos un modelo de procesamiento de actores (en 
+inglés, *actor process model*) al estilo Erlang [#]_ para implementar a los 
+participantes de la subasta. Los "actores" son objetos que pueden enviar 
+mensajes. Cada actor tiene una "bandeja de entrada" o buzón, donde llegan los 
+mensajes, que son representados como una cola. Puede trabajar secuencialmente 
+la cola de mensajes en su bandeja de entrada, o realizar una búsqueda de 
+patrones en los mensajes.
+
+.. [#] http://www.erlang.org/
+
+.. \begin{lstlisting}[style=floating,label=fig:simple-auction-msgs,caption=
+   Clases de mensajes para un servicio de Subastas.]
+
+
+.. code-block:: scala
+
+   import scala.actors.Actor
+
+   abstract class AuctionMessage
+   case class Offer(bid: Int, client: Actor)  extends AuctionMessage
+   case class Inquire(client: Actor)          extends AuctionMessage
+
+   abstract class AuctionReply
+   case class  Status(asked: Int, expire: Date) extends AuctionReply
+   case object BestOffer                        extends AuctionReply
+   case class  BeatenOffer(maxBid: Int)         extends AuctionReply
+   case class  AuctionConcluded(seller: Actor, client: Actor) 
+                                                extends AuctionReply
+   case object AuctionFailed                    extends AuctionReply
+   case object AuctionOver                      extends AuctionReply
+
+
+Para cada articulo comercializable hay un actor subastador que publica 
+información sobre el articulo, se encarga de aceptar las ofertas de los 
+clientes y de comunicarse con el vendedor y el comprador ganador para 
+cerrar la transacción. Presentaremos aquí la visión general de una 
+implementación simple.
+
+Como primer paso, se definen los mensajes que se intercambian durante 
+una subasta. Hay dos clases  abstractas base: ``AuctionMessage`` 
+para los mensajes de los clientes con el servicio de subastas, y 
+``AuctionReply`` para las respuestas del servicio a los clientes. 
+Para ambas clases base existe un número de casos, que se definen en 
+la Figura~\ref{fig:simple-auction-msgs}
+
+.. code-block:: scala
+
+   class Auction(seller: Actor, minBid: Int, closing: Date) extends Actor {
+     val timeToShutdown = 36000000  // milisegundos
+     val bidIncrement = 10
+     def act() {
+       var maxBid = minBid - bidIncrement
+       var maxBidder: Actor = null
+       var running = true
+       while (running) {
+         receiveWithin ((closing.getTime() - new Date().getTime())) {
+           case Offer(bid, client) =>
+             if (bid >= maxBid + bidIncrement) { 
+               if (maxBid >= minBid) maxBidder ! BeatenOffer(bid)
+               maxBid = bid; maxBidder = client; client ! BestOffer
+             } else {
+               client ! BeatenOffer(maxBid)
+             }
+           case Inquire(client) =>
+             client ! Status(maxBid, closing)
+           case TIMEOUT =>
+             if (maxBid >= minBid) {
+               val reply = AuctionConcluded(seller, maxBidder)
+               maxBidder ! reply; seller ! reply
+             } else {
+               seller ! AuctionFailed
+             }
+             receiveWithin(timeToShutdown) {
+               case Offer(_, client) => client ! AuctionOver
+               case TIMEOUT => running = false
+             }
+         }
+       }
+     } 
+   }
+
+
+
+Para cada clase base, hay una serie de *case classes* que definen el 
+formato de los mensajes particulares de la clase. Estos mensajes también 
+pueden ser asignados finalmente a pequeños documentos XML. Suponemos la 
+existencia de herramientas automáticas para la conversión entre documentos 
+XML y estructuras de datos internas como las definidas anteriormente.
+
+La Figura~\ref{fig:simple-auction} presenta la implementación en Scala de 
+una clase ``Auction`` para actores de subastas que coordinan la oferta 
+en un artículo. Los objetos de esta clase se crean mediante la indicación de
+
+
+* un actor "vendedor" (*seller* en inglés) que debe ser notificado cuando 
+  la subasta haya terminado,
+  
+* una oferta mínima,
+
+* la fecha en que la subasta cerrará.
+
+
+
+El comportamiento del actor es definido por su método ``act``. Este método 
+selecciona repetidas  veces (usando ``receiveWithin``) un mensaje y reacciona 
+según su tipo, hasta que la subasta se cierra, que es señalado por un mensaje 
+``TIMEOUT``. Antes de detenerse completamente, se mantiene activo durante 
+un nuevo período determinado por la constante ``timeToShutdown`` y responde 
+a las ofertas con que la subasta ya se ha cerrado.
+
+Aquí está la explicación más detallada de los constructos utilizados en 
+este programa: 
+
+* El método ``receiveWithin`` de la clase ``Actor`` toma como parámetros 
+  un período de tiempo determinado en milisegundos y una función que procesa 
+  los mensajes en el buzón (bandeja de entrada). La función, está dada por 
+  una serie de casos que especifican cada patrón y una acción a realizar según 
+  el patrón con el que coincida el mensaje. El método ``receiveWithin`` 
+  selecciona el primer mensaje en el buzón que coincide con uno de estos 
+  patrones y le aplica la acción que corresponde.
+
+* El último caso de ``receiveWithin`` está definido por el patrón 
+  ``TIMEOUT``. Si no se reciben otros mensajes mientras tanto, este 
+  patrón se activa después del tiempo que se pasa como argumento al 
+  método ``receiveWithin``. ``TIMEOUT`` es un mensaje especial, que 
+  se activa por la misma implementación del ``Actor``.
+
+* Los mensajes de respuesta se envían utilizando la sintaxis de la forma 
+  ``destino ! UnMensaje``. ``!`` Se utiliza aquí como un operador 
+  binario, con un actor y un mensaje como argumentos. Esto en Scala es 
+  equivalente a la llamada de métodos ``destino.!(UnMensaje)``, 
+  es decir, la invocación del método ``!`` del actor llamado "destino", 
+  con algún mensaje dado como parámetro.
+
+
+La discusión anterior da una degustación de la programación distribuida en 
+Scala. Podría parecer que Scala posee un rico conjunto de constructos del 
+lenguaje que apoyan los procedimientos con actores, el envío y recepción de 
+mensaje, programación con tiempos de espera, etc. De hecho, es todo lo 
+contrario. Todos los constructos de lo discutido arriba se ofrecen como 
+métodos en la biblioteca de clases ``Actor``. Esta clase está
+implementada en Scala, basadose en el modelo hilo conductor(en inglés, 
+*underlying thread model*) de la lengua huésped (por ejemplo, Java 
+o .NET [#]_ ).
+La aplicación de todas las características de la clase ``Actor`` se verán más 
+adelante en la sección~\ref{sec:actors}
+
+.. [#] Aunque el compilador oficial de Scala está escrito en Java para 
+   ser usado con la JMV, existe una versión escrita en C\# para la 
+   plataforma .NET; cabe anotar, que es una versión desactualizada 
+   del lenguaje Scala.
+
+
+
+Las ventajas del enfoque basado en bibliotecas, son la sencillez relativa 
+del núcleo del lenguaje y la flexibilidad para quienes diseñan bibliotecas. 
+Debido a que no es necesario especificar los detalles del proceso de 
+comunicación de alto nivel el núcleo del lenguaje, este se puede mantener 
+más simple y más general. Debido a que el particular modelo de los mensajes 
+en un buzón(bandeja de entrada) es un módulo de una biblioteca, este puede 
+ser modificado libremente si se hace necesario un modelo diferente en 
+alguna aplicación. El enfoque requiere sin embargo que el núcleo del lenguaje 
+sea lo suficientemente expresivo como para proporcionar las abstracciones 
+lingüísticas necesarias en una forma conveniente. Scala ha sido diseñado con 
+esto en mente, uno de los principales objetivos en su diseño es que debe ser 
+lo suficientemente flexible para actuar como un idioma práctico para acoger 
+lenguajes de dominio específico aplicados mediante módulos de biblioteca. 
+Por ejemplo, los constructos de comunicación del actor presentado 
+anteriormente, puede considerarse como un lenguaje de dominio específico 
+de ese tipo, que conceptualmente extiende el núcleo Scala.
+
+
