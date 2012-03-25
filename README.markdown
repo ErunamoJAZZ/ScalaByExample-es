@@ -6,10 +6,43 @@ documentación oficial sobre el lenguaje de programación Scala.
 Esta es la traducción al idioma español de este interesante libro.
 
 
+Acerca de Scala y el libro
+--------------------------
+
+Scala es un lenguaje de programación **funcional**/**orientado a objetos**, que
+funciona sobre la Máquina Virtual de Java (**JVM**). Nació como parte del trabajo
+de _Martin Odersky_, profesor de la _École polytechnique fédérale de Lausanne_ 
+(EPFL) en Suiza.
+
+Se creó a raíz de la frustración que es programar en Java, esto hizo que Scala
+se diseñara con la facilidad de programación en mente, por lo que su sintaxis 
+es muy sencilla, también, al estar orientado a Objetos, es muy sencillo para un 
+programador experto en Java hacer el salto, pero ya que también está orientado
+a la programación funcional, muchas veces usar dichas capacidades puede ser 
+"traumático" para el programador inexperto.
+
+Por eso, _Scala by Example_ es uno de los libros referencia cuando se está
+aprendiendo este maravilloso lenguaje de programación, ya que lo introduce 
+a partir de ejemplos de forma completa y fiel al lenguaje de forma pragmática, 
+con ejemplos muy conocidos, y con otros no tanto, pero que serán útiles 
+y hasta cruciales, a la hora de enfrentar verdaderos retos a futuro.
+
+
+
+Sobre la programación funcional
+-------------------------------
+
+¿Estás interesado en Scala, pero no entiendes/te da pereza/te vuelve loco(a) 
+la programación funcional (Conocido también como _paradigma declarativo_)?
+
+No sufras más, y lee: 
+**https://ademirar.wordpress.com/2010/08/28/programacion-funcional-para-el-resto-de-nosotros/**
+
+
 FAQ:
 ----
 
-* **Si el original está en LaTeX, ¿Por qué se está escribiendo en .txt?:** 
+* **Si el original está en LaTeX, ¿Por qué se está escribiendo en .rst?:** 
   El libro lo estamos escribiendo usando la sintaxis _reStructuredText_, para 
   luego generar el PDF usando el programa **rst2pdf**.
   Usar el latex original nos ha traído muchas complicaciones a la hora de 
@@ -40,4 +73,4 @@ FAQ:
 
 --------------------------
 
-_Ultima modificación: jue 22 mar 2012 21:30:10 COT_
+_Ultima modificación: sáb 24 mar 2012 20:05:14 COT_
