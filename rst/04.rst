@@ -11,6 +11,7 @@ Expreciones y Funciones Simples
 Scala viene con un intérprete que puede ser visto como una calculadora de lujo (Esto será común a programadores que conozcan Python o Ruby, que son lenguajes que también vienen con interprete). El usuario interactúa con la calculadora, escribiendo expresiones. La calculadora devuelve los resultados de la evaluación y sus tipos. Por ejemplo:
 
 .. code-block:: scala
+
    scala> 87 + 145
    unnamed0: Int = 232
 
@@ -25,6 +26,7 @@ Scala viene con un intérprete que puede ser visto como una calculadora de lujo 
 También es posible nombrar una sub-expresión y después usar su nombre en lugar de la expresión:
 
 .. code-block:: scala
+
    scala> def scale = 5
    scale: Int
 
@@ -41,22 +43,23 @@ También es posible nombrar una sub-expresión y después usar su nombre en luga
    unnamed4: Double = 62.83185307179586
 
 
+
 Las definiciones comienzan con la palabra reservada ``def``; esto asigna un nombre que hace de sinónimo de la expresión que va después del signo ``=``. El intérprete responderá con el nombre asignado y su tipo.
 
 Al ejecutar una definición como ``def x = e`` no se evaluará la expresión ``e``. En su lugar, ``e`` se evalúa cada vez que ``x`` se utiliza. Por otra parte, Scala ofrece otro estilo de definición: ``val x = e``, que evalúa el lado derecho ``e`` como parte de la evaluación de la definición. Si ``x`` se utiliza posteriormente, es inmediatamente sustituido por el valor pre-computado de ``e``, por lo que la expresión no tiene que ser evaluada de nuevo.
  
 ¿Cómo son evaluadas las expresiones? Una expresión consta de operadores y operandos, y se evalúa en repetidas ocasiones aplicando las siguientes reglas de simplificación:
 
-* Seleccionar la operación más a la izquierda
-* evaluar esos operandos
+* Seleccionar la operación más a la izquierda,
+* evaluar esos operandos,
 * aplicar el operador a los valores operandos.
 
 
 Un nombre definido con ``def`` se evalúa sustituyendolo por su definición (sin evaluar) que está a mano derecha. Un nombre definido con ``val`` se evalúa sustituyendolo por el valor de la definición que está a mano derecha. El proceso de evaluación se detiene una vez que han alcanzado un valor. Un valor es un elemento de datos como una cadena, un número, una matriz, o una lista.
 
-.. \example
 
-Aquí hay una evaluación de una expresión aritmética.
+
+Ejemplo:    Aquí hay una evaluación de una expresión aritmética.
 
 
 .. code-block:: scala
@@ -453,3 +456,5 @@ also, but one should not rely on this across implementations.
 .. \begin{exercise} 
 Design a tail-recursive version of ``factorial``.
 ..\end{exercise}
+
+

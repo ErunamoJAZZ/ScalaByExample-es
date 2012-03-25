@@ -2,6 +2,7 @@ Introducción
 ============
 
 
+
 Scala es un lenguaje de programación que integra sin irregularidades los 
 paradigmas de programación orientada a objetos y de programación funcional. 
 Se diseñó para expresar patrones de programación comunes de una manera concisa, 
@@ -24,15 +25,17 @@ declaraciones adicionales.
 En este documento introduciremos Scala de una manera informal, mediante 
 diferentes ejemplos prácticos.
 
-Los capítulos 2 y 3 enfatizan algunas de las características que hacen a Scala 
-un lenguaje tan interesante.
+
+El `capítulo 2`_ y el `capítulo 3`_ enfatizan algunas de las características 
+que hacen de Scala un lenguaje tan interesante.
 Los siguientes capítulos le introducirán en los constructos del lenguaje de 
 manera más cuidadosa, comenzando con las expresiones y funciones simples, luego 
 trabajando sobre y mediante objetos y clases, listas y *streams*, estados 
 mutables, concordancia de patrones, y pasando por ejemplos más complejos que 
 muestran técnicas de programación bastante interesantes. La presente exposición 
-informal tiene la intención de complementarse con el **Manual de Referencia del 
-Lenguaje Scala**, el cual especifica Scala en una manera más detallada y precisa.
+informal tiene la intención de complementarse con el **Manual de Referencia 
+del Lenguaje Scala**, el cual especifica Scala en una manera más detallada 
+y precisa.
 
 
 
@@ -46,4 +49,8 @@ al trabajar con nuestro lenguaje, se ha cambiado de Scheme a Scala en cada caso.
 Además, los ejemplos hacen uso de los constructos orientados a objetos donde es 
 apropiado.
 
+
+
+.. _capítulo 2: `Un primer ejemplo`_
+.. _capítulo 3: `Programando con Actores y Mensajes`_
 

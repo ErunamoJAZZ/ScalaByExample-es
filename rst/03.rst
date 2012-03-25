@@ -14,9 +14,6 @@ patrones en los mensajes.
 
 .. [#] http://www.erlang.org/
 
-.. \begin{lstlisting}[style=floating,label=fig:simple-auction-msgs,caption=
-   Clases de mensajes para un servicio de Subastas.]
-
 
 .. code-block:: scala
 
@@ -46,8 +43,9 @@ Como primer paso, se definen los mensajes que se intercambian durante
 una subasta. Hay dos clases  abstractas base: ``AuctionMessage`` 
 para los mensajes de los clientes con el servicio de subastas, y 
 ``AuctionReply`` para las respuestas del servicio a los clientes. 
-Para ambas clases base existe un número de casos, que se definen en 
-la Figura~\ref{fig:simple-auction-msgs}
+Para ambas clases base existe un número de casos, que se definen en el 
+código anterior.
+
 
 .. code-block:: scala
 
@@ -93,7 +91,7 @@ pueden ser asignados finalmente a pequeños documentos XML. Suponemos la
 existencia de herramientas automáticas para la conversión entre documentos 
 XML y estructuras de datos internas como las definidas anteriormente.
 
-La Figura~\ref{fig:simple-auction} presenta la implementación en Scala de 
+En el ejemplo anterior, se presenta la implementación en Scala de 
 una clase ``Auction`` para actores de subastas que coordinan la oferta 
 en un artículo. Los objetos de esta clase se crean mediante la indicación de
 

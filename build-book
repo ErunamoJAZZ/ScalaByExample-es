@@ -1,0 +1,5 @@
+#!/bin/sh
+
+#Prueba de contructor del libro.
+
+rst2pdf rst/ScalaByExample.rst -o build/ScalaByExample.pdf
