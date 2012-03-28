@@ -1,2 +1,2 @@
-.. contents:: Contenidos
+.. contents:: Índice general
 .. section-numbering::

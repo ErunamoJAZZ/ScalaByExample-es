@@ -1,5 +1,14 @@
 #!/bin/sh
-
 #Prueba de contructor del libro.
 
-rst2pdf rst/ScalaByExample.rst -o build/ScalaByExample.pdf
+# MODO DE USO
+# Ejecute el script desde un terminal, y el pdf quedará en la carpeta "build".
+# 
+# DEPENDENCIAS
+# El script usa rst2pdf, en sistemas basados en Debian, instale lo siguiente:
+# 
+#     $ sudo aptitude install python-matplotlib rst2pdf
+# 
+
+
+rst2pdf -b 1 rst/ScalaByExample.rst -o build/ScalaByExample.pdf

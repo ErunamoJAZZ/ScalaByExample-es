@@ -1,29 +1,37 @@
-Expreciones y Funciones Simples
+Expresiones y Funciones Simples
 ===============================
 
+.. aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa80
 
-Los ejemplos anteriores dan una impresión de lo que se puede hacer con Scala. Ahora introduciremos los constructos uno por uno de una manera más sistemática. Comenzamos con el nivel más pequeño, las expresiones y las funciones.
+Los ejemplos anteriores dan una impresión de lo que se puede hacer con Scala. 
+Ahora introduciremos los constructos uno por uno de manera más sistemática. 
+Comenzaremos con el nivel más pequeño: las expresiones y las funciones.
 
 
-Expreciones y Funciones Simples
+Expresiones y Funciones Simples
 -------------------------------
 
-Scala viene con un intérprete que puede ser visto como una calculadora de lujo (Esto será común a programadores que conozcan Python o Ruby, que son lenguajes que también vienen con interprete). El usuario interactúa con la calculadora, escribiendo expresiones. La calculadora devuelve los resultados de la evaluación y sus tipos. Por ejemplo:
+Scala viene con un intérprete, que puede ser visto como una calculadora de lujo 
+(Esto será común para los programadores que conozcan Python o Ruby, que son 
+lenguajes que también vienen con su propio interprete). El usuario interactúa 
+con la calculadora, escribiendo expresiones, y la calculadora le devuelve 
+los resultados de la evaluación y sus tipos. Por ejemplo:
 
 .. code-block:: scala
 
    scala> 87 + 145
-   unnamed0: Int = 232
+   res0: Int = 232
 
    scala> 5 + 2 * 3
-   unnamed1: Int = 11
+   res1: Int = 11
 
    scala> "hola" + " mundo!"
-   unnamed2: java.lang.String = hola mundo!
+   res2: java.lang.String = hola mundo!
 
 
 
-También es posible nombrar una sub-expresión y después usar su nombre en lugar de la expresión:
+También es posible nombrar una sub-expresión y después usar su nombre en 
+lugar de la expresión:
 
 .. code-block:: scala
 
@@ -31,7 +39,7 @@ También es posible nombrar una sub-expresión y después usar su nombre en luga
    scale: Int
 
    scala> 7 * scale
-   unnamed3: Int = 35
+   res3: Int = 35
    
    scala> def pi = 3.141592653589793
    pi: Double
@@ -40,22 +48,41 @@ También es posible nombrar una sub-expresión y después usar su nombre en luga
    radio: Int
 
    scala> 2 * pi * radio
-   unnamed4: Double = 62.83185307179586
+   res4: Double = 62.83185307179586
 
 
 
-Las definiciones comienzan con la palabra reservada ``def``; esto asigna un nombre que hace de sinónimo de la expresión que va después del signo ``=``. El intérprete responderá con el nombre asignado y su tipo.
+Las definiciones comienzan con la palabra reservada ``def``; esto asigna 
+un nombre que hace de sinónimo de la expresión que va después del signo 
+``=``. El intérprete responderá con el nombre asignado y su tipo.
 
-Al ejecutar una definición como ``def x = e`` no se evaluará la expresión ``e``. En su lugar, ``e`` se evalúa cada vez que ``x`` se utiliza. Por otra parte, Scala ofrece otro estilo de definición: ``val x = e``, que evalúa el lado derecho ``e`` como parte de la evaluación de la definición. Si ``x`` se utiliza posteriormente, es inmediatamente sustituido por el valor pre-computado de ``e``, por lo que la expresión no tiene que ser evaluada de nuevo.
+Al ejecutar una definición como ``def x = e`` no se evaluará la 
+expresión ``e``. En su lugar, ``e`` se evalúa cada vez que 
+``x`` se utiliza. Por otra parte, Scala ofrece otro estilo de 
+definición: ``val x = e``, que evalúa el lado derecho ``e`` 
+como parte de la evaluación de la definición. Si ``x`` se utiliza 
+posteriormente, será inmediatamente sustituida por el valor 
+pre-computado de ``e``, por lo que la expresión no tiene que 
+ser evaluada de nuevo.
  
-¿Cómo son evaluadas las expresiones? Una expresión consta de operadores y operandos, y se evalúa en repetidas ocasiones aplicando las siguientes reglas de simplificación:
+
+
+¿Cómo son evaluadas las expresiones?. Una expresión consta de operadores 
+y operandos, que se evalúan en repetidas ocasiones aplicando las siguientes 
+reglas de simplificación:
 
 * Seleccionar la operación más a la izquierda,
 * evaluar esos operandos,
 * aplicar el operador a los valores operandos.
 
 
-Un nombre definido con ``def`` se evalúa sustituyendolo por su definición (sin evaluar) que está a mano derecha. Un nombre definido con ``val`` se evalúa sustituyendolo por el valor de la definición que está a mano derecha. El proceso de evaluación se detiene una vez que han alcanzado un valor. Un valor es un elemento de datos como una cadena, un número, una matriz, o una lista.
+Un nombre definido con ``def`` se evalúa sustituyéndolo por su definición 
+(sin evaluar) que está al lado derecho. Un nombre definido con ``val`` 
+se evalúa sustituyéndolo por el valor de su definición que está al lado 
+derecho. El proceso de evaluación se detiene una vez que haya alcanzado 
+un valor. 
+Un valor es un elemento de datos como un *String* (Cadena), un Número, 
+una Matriz, o una Lista.
 
 
 
@@ -72,15 +99,16 @@ Ejemplo:    Aquí hay una evaluación de una expresión aritmética.
    →   62.83185307179586
 
 
-El proceso de simplificación gradual de las expresiones a valores se conoce como *reducción*.
+El proceso de simplificación gradual desde las expresiones a valores 
+se conoce como *reducción*.
 
 
 
 Parámetros
 ----------
 
-
-Usando ``def``, también es posible definir funciones con parámetros. Por ejemplo:
+Usando ``def``, también es posible definir funciones con parámetros. 
+Por ejemplo:
 
 .. code-block:: scala
 
@@ -88,27 +116,38 @@ Usando ``def``, también es posible definir funciones con parámetros. Por ejemp
    square: (Double)Double
 
    scala> square(2)
-   unnamed0: Double = 4.0
+   res0: Double = 4.0
 
    scala> square(5 + 3)
-   unnamed1: Double = 64.0
+   res1: Double = 64.0
 
    scala> square(square(4))
-   unnamed2: Double = 256.0
+   res2: Double = 256.0
 
    scala> def sumOfSquares(x: Double, y: Double) = square(x) + square(y)
-   sumOfSquares: (Double,Double)Double
+   sumOfSquares: (x: Double, y: Double)Double
 
    scala> sumOfSquares(3, 2 + 2)
-   unnamed3: Double = 25.0
+   res3: Double = 25.0
 
 
-Los parámetros de una función van después de su nombre y están siempre entre paréntesis. Todos los parámetros viene con un tipo, que se indica a continuación del nombre del parámetro y dos puntos (``:``). 
+Los parámetros de una función van después de su nombre y están siempre 
+entre paréntesis. Todos los parámetros viene con un tipo, que se indica 
+a continuación del nombre del parámetro y dos puntos (``:``). 
 
-.. Actualmente, sólo necesitamos los tipos numéricos básicos tales como el tipo ``scala.Double`` para números de doble precisión. Scala define {\em tipos alias} para algunos tipos estándar, así que podemos escribir los tipos numéricos como en Java. Por ejemplo ``double`` es un alias de tipo de ``scala.Double`` y ``int`` es un alias de tipo de ``scala.Int``.
+.. Actualmente, sólo necesitamos los tipos numéricos básicos tales como el 
+   tipo ``scala.Double`` para números de doble precisión. Scala define 
+   *tipos alias* para algunos tipos estándar, así que podemos escribir los 
+   tipos numéricos como en Java. Por ejemplo ``double`` es un alias de 
+   tipo de ``scala.Double`` y ``int`` es un alias de tipo de ``scala.Int``.
 .. OJO!! ESTO YA NO ES CIERTO EN SCALA 2.9!!!!!!!
 
-Las funciones con parámetros se evalúan de forma análoga a los operadores en las expresiones. En primer lugar, los argumentos de la función se evalúan (en orden de izquierda a derecha). A continuación, la función aplicada se sustituye por las funciones que están a su lado derecho, y al mismo tiempo todos los parámetros formales de la función son reemplazados por sus argumentos reales correspondientes.
+Las funciones con parámetros se evalúan de forma análoga a los operadores 
+en las expresiones. En primer lugar, los argumentos de la función se 
+evalúan antes de entrar en el operador (en orden de izquierda a derecha). 
+A continuación, la función aplicada se sustituye por las funciones que están 
+a su lado derecho, y al mismo tiempo todos los parámetros formales de la 
+función son reemplazados por sus argumentos reales correspondientes.
 
 .. \example\
  
@@ -126,7 +165,10 @@ Las funciones con parámetros se evalúan de forma análoga a los operadores en 
 
 
 
-El ejemplo muestra que el intérprete reduce los argumentos de la función a valores, antes de volver a escribir la aplicación de la función. Podría haber optado por aplicar la función a los argumentos sin reducir. Esto habría dado el siguiente orden de reducción:
+El ejemplo muestra que el intérprete reduce los argumentos de la función 
+a valores, antes de volver a escribir la aplicación de la función. 
+Podría haber optado por aplicar la función a los argumentos sin reducir. 
+Esto habría dado el siguiente orden de reducción:
 
 .. code-block:: scala
    
@@ -141,9 +183,19 @@ El ejemplo muestra que el intérprete reduce los argumentos de la función a val
    →   25
 
 
-La segunda evaluación se conoce como *llamada-por-nombre* (*call-by-name* en inglés), mientras que la primera se conoce como *llamada-por-valor* (*call-by-value* en inglés). Como en las funciones solo se usan puras expresiones, se pueden reducir con el modelo de sustitución, y con ambos esquemas se obtiene al final el mismo resultado.
+La segunda evaluación se conoce como *llamada-por-nombre* (*call-by-name* 
+en inglés), mientras que la primera se conoce como *llamada-por-valor* 
+(*call-by-value* en inglés). Como en las funciones solo se usan puras 
+expresiones, se pueden reducir con el modelo de sustitución, y con ambos 
+esquemas se obtiene al final el mismo resultado.
 
-*Llamada-por-valor* tiene la ventaja de que evita la evaluación repetida de argumentos. *Llamada-por-nombre* tiene la ventaja de que evita la evaluación de argumentos cuando el parámetro no es utilizado por la función en absoluto. *Llamada-por-valor* suele ser más eficiente que *llamar-por-nombre*, pero una evaluación de *llamada-por-valor* puede ocasionar bucles donde una evaluación de *llamada-por-nombre* terminaría. Considere lo siguiente:
+*Llamada-por-valor* tiene la ventaja de que evita la evaluación repetida de 
+argumentos. *Llamada-por-nombre* tiene la ventaja de que evita la evaluación 
+de argumentos cuando el parámetro no es utilizado por la función en absoluto. 
+*Llamada-por-valor* suele ser más eficiente que *llamar-por-nombre*, pero 
+una evaluación de *llamada-por-valor* puede ocasionar bucles donde una 
+evaluación de *llamada-por-nombre* terminaría. 
+Considere lo siguiente:
 
 .. code-block:: scala
    
@@ -151,10 +203,12 @@ La segunda evaluación se conoce como *llamada-por-nombre* (*call-by-name* en in
    loop: Int
 
    scala> def first(x: Int, y: Int) = x
-   first: (Int,Int)Int
+   first: (x: Int, y: Int)Int
 
 
-Entonces ``first(1, loop)`` se reduce con *llamada-por-nombre* a ``1``, mientras que si el mismo término se reduce con *llamada-por-valor*, lo hará varias veces en sí mismo, y por lo tanto, la evaluación no terminará nunca.
+Entonces ``first(1, loop)`` se reduce con *llamada-por-nombre* a ``1``, 
+mientras que si el mismo término se reduce con *llamada-por-valor*, lo hará 
+varias veces en sí mismo, y por lo tanto, la evaluación no terminará nunca.
 
 .. code-block:: scala
 
@@ -165,20 +219,21 @@ Entonces ``first(1, loop)`` se reduce con *llamada-por-nombre* a ``1``, mientras
    →   ...
 
 
-Scala utiliza *llamada-por-valor* por defecto, pero puede cambiar a evaluar con *llamada-por-nombre* si el tipo de parámetro está precedido por ``=>``.
+Scala utiliza *llamada-por-valor* por defecto, pero puede cambiar a evaluar 
+con *llamada-por-nombre* si el tipo de parámetro está precedido por ``=>``.
 
 .. \example\ 
  
 .. code-block:: scala
 
    scala> def constOne(x: Int, y: => Int) = 1
-   constOne: (Int,=> Int)Int
+   constOne: (x: Int, y: => Int)Int
 
    scala> constOne(1, loop)
-   unnamed0: Int = 1
+   res0: Int = 1
 
-   scala> constOne(loop, 2)               // ejecuta un bucle infinito.
-   ^C                                     // se detiene con Ctrl+C
+   scala> constOne(loop, 2)      // ejecuta un bucle infinito.
+   ^C                            // se detiene con Ctrl+C
 
 
 
@@ -186,16 +241,25 @@ Scala utiliza *llamada-por-valor* por defecto, pero puede cambiar a evaluar con 
 Expresiones Condicionales
 -------------------------
 
-El ``if-else`` de Scala permite elegir una entre dos posibilidades. Su sintaxis es como la de Java, pero donde el ``if-else`` de Java sólo se puede utilizar para elegir entre varios estados, el de Scala permite la misma sintaxis que cuando se elege entre dos expresiones. Por eso el ``if-else`` Scala sirve también como un sustituto de la expresión condicional de Java ``... ? ... : ...``.
+El ``if-else`` de Scala permite elegir una entre dos posibilidades. 
+Su sintaxis es como la de Java, pero donde el ``if-else`` de Java 
+sólo se puede utilizar para elegir entre varios estados, el de Scala 
+permite la misma sintaxis que cuando se elege entre dos expresiones. 
+Por eso el ``if-else`` Scala sirve también como un sustituto de la 
+expresión condicional de Java ``... ? ... : ...``.
 
 .. \example\ 
 
 .. code-block:: scala
+   
    scala> def abs(x: Double) = if (x >= 0) x else -x
-   abs: (Double)Double
+   abs: (x: Double)Double
 
 
-Las expresiones booleanas en Scala son similares a Java, se forman a partir de las constantes ``true`` y ``false``, de operadores de comparación, con la negación booleana ``!`` y con los operadores booleanos ``&&`` y ``||``.
+Las expresiones booleanas en Scala son similares a Java, se forman a 
+partir de las constantes ``true`` y ``false``, de operadores de 
+comparación, con la negación booleana ``!`` y con los operadores 
+booleanos ``&&`` y ``||``.
 
 
 
@@ -204,16 +268,25 @@ Ejemplo: raíces cuadradas por el método de Newton
 -------------------------------------------------
 
 
-Ahora ilustraremos los elementos del lenguaje que hemos introducido hasta ahora con la construcción de un programa más interesante. La tarea consiste en escribir una función
+Ahora ilustraremos los elementos del lenguaje que hemos introducido hasta 
+ahora con la construcción de un programa más interesante. La tarea consiste 
+en escribir una función
 
 .. code-block:: scala
 
    def sqrt(x: Double): Double = ...
 
 
-que calcula la raíz cuadrada de ``x``.
+que calcule la raíz cuadrada de ``x``.
 
-Una forma habitual de calcular raíces cuadradas es con el método de aproximaciones sucesivas de Newton. Uno comienza con una conjetura inicial ``y`` (por ejemplo: ``y = 1``). Entonces se intenta mejorar varias veces la actual suposición ``y`` tomando el promedio de ``y`` y de  ``x/y``. A modo de ejemplo, las tres columnas indican la conjetura ``y``, el cociente ``x/y``, y su promedio para la primera aproximación de :math:`\sqrt{2}`.
+
+Una forma habitual de calcular raíces cuadradas es con el método de 
+aproximaciones sucesivas de Newton. Uno comienza con una conjetura 
+inicial ``y`` (por ejemplo: ``y = 1``). Entonces se intenta mejorar 
+varias veces la actual suposición ``y`` tomando el promedio de ``y`` 
+y de  ``x/y``. A modo de ejemplo, las tres columnas indican la conjetura 
+``y``, el cociente ``x/y``, y su promedio para la primera aproximación 
+de :math:`\sqrt{2}`.
 
 .. code-block:: scala
 
@@ -222,11 +295,13 @@ Una forma habitual de calcular raíces cuadradas es con el método de aproximaci
    1.4167       2/1.4167 = 1.4118     1.4142
    1.4142       ...                   ...
 
-   :math:`y`            :math:`x/y`                   :math:`(y+x/y)/2`
+   y            x/y                   (y+x/y)/2
 
-Se puede aplicar este algoritmo en Scala con un conjunto de pequeñas funciones, que representan cada uno de los elementos del algoritmo.
+Se puede aplicar este algoritmo en Scala con un conjunto de 
+pequeñas funciones, que representan cada uno de los elementos del algoritmo.
 
-En primer lugar, se define una función para la iteración de una conjetura que resulta así:
+En primer lugar, se define una función para la iteración de una conjetura 
+que resulta así:
 
 .. code-block:: scala
 
@@ -235,11 +310,23 @@ En primer lugar, se define una función para la iteración de una conjetura que 
      else sqrtIter(improve(guess, x), x)
 
 
-Tenga en cuenta que ``sqrtIter`` se llama de forma recursiva. Los bucles en los programas imperativos siempre pueden ser modelados por recursividad en programas funcionales.
+Tenga en cuenta que ``sqrtIter`` se llama de forma recursiva. Los bucles 
+en los programas imperativos siempre pueden ser modelados por recursividad 
+en programas funcionales.
 
-Tenga en cuenta también que la definición de ``sqrtIter`` contiene un tipo de retorno, que va despues de la sección de parámetros. Para las funciones recursivas el tipo de retorno es obligatoro. Para una función no recursiva, el tipo de retorno es opcional, si no se encuentra el tipo de retorno,lo calculará del lado derecho de la función. Sin embargo, incluso para las funciones no recursivas, a menudo es una buena idea incluir un tipo de retorno para una mejor documentación.
+Tenga en cuenta también que la definición de ``sqrtIter`` contiene un tipo 
+de retorno, que va despues de la sección de parámetros. Para las funciones 
+recursivas el tipo de retorno es obligatoro. Y para una función no recursiva, 
+el tipo de retorno es opcional, si no se encuentra el tipo de retorno, 
+scala lo calculará del lado derecho de la función. Sin embargo, incluso para 
+las funciones no recursivas, a menudo es una buena idea incluir un tipo de 
+retorno para una mejor documentación.
 
-En segundo lugar, definimos las dos funciones llamadas por ``sqrtIter``: una función ``improve`` (*mejorar*, en español) para mejorar la respuesta, y una prueba para determinar el fin del ciclo ``isGoodEnough`` (*"es suficientemente bueno"*, en español). He aquí su definición.
+En segundo lugar, definimos las dos funciones llamadas por ``sqrtIter``: 
+una función ``improve`` (*mejorar*, en español) para mejorar la respuesta, 
+y una prueba para determinar el fin del ciclo ``isGoodEnough`` 
+(*"es suficientemente bueno"*, en español). 
+He aquí su definición:
 
 .. code-block:: scala
 
@@ -262,7 +349,9 @@ Por último, la misma función ``sqrt`` se define aplicando ``sqrtIter``.
 
 .. \begin{exercise} 
 
-La prueba ``isGoodEnough`` no es muy precisa para un número pequeño y podría no terminar con números muy grandes (¿por qué?). Diseñe una versión diferente de ``isGoodEnough`` que no tenga estos problemas.
+La prueba ``isGoodEnough`` no es muy precisa para un número pequeño 
+y podría no terminar con números muy grandes (¿por qué?). Diseñe una 
+versión diferente de ``isGoodEnough`` que no tenga estos problemas.
 
 .. \end{exercise}
 
@@ -277,9 +366,17 @@ Haga el seguimiento cuando se ejecuta la expresión ``sqrt(4)``.
 Funciones Anidadas
 ------------------
 
-El estilo de programación funcional fomenta la construcción de muchas funciones pequeñas de ayuda. En el último ejemplo, la implementación de ``sqrt`` hacía uso de las funciones auxiliares ``sqrtIter``, ``improve`` y ``isGoodEnough``. Los nombres de estas funciones sólo son relevantes para la implementación de ``sqrt``. Por lo general no desearemos que quien use ``sqrt``} pueda acceder a estas otras funciones directamente.
+El estilo de programación funcional fomenta la construcción de muchas 
+funciones pequeñas de ayuda. En el último ejemplo, la implementación de 
+``sqrt`` hacía uso de las funciones auxiliares ``sqrtIter``, 
+``improve`` y ``isGoodEnough``. Los nombres de estas funciones sólo 
+son relevantes para la implementación de ``sqrt``. Por lo general no 
+desearemos que quien use ``sqrt`` pueda acceder a estas otras 
+funciones directamente.
 
-Esto lo podemos aplicar (y así evitar la contaminación del *espacio de nombres* (*name-space*, en inglés)) mediante la inclusión de las funciones auxiliares dentro de la misma función:
+Esto lo podemos aplicar (y así evitar la contaminación del 
+*espacio de nombres* (*name-space*, en inglés)) mediante la 
+inclusión de las funciones auxiliares dentro de la misma función:
 
 .. code-block:: scala
 
@@ -298,9 +395,17 @@ Esto lo podemos aplicar (y así evitar la contaminación del *espacio de nombres
 .. de nuevo, para quitar el resaltado azul xDD    >
 
 
-En este programa, las llaves ``{...}`` encierran un *bloque*. Los  mismos bloques en Scala son expresiones. Cada bloque termina con una expresión de resultado que define su valor. El resultado de la expresión puede ser precedido por definiciones auxiliares, que son visibles sólo en el propio bloque.
+En este programa, las llaves ``{...}`` encierran un *bloque*. Los 
+mismos bloques en Scala son expresiones. Cada bloque termina con 
+una expresión de resultado que define su valor. El resultado de la 
+expresión puede ser precedido por definiciones auxiliares, que son 
+visibles sólo dentro del propio bloque.
 
-Cada definición de un bloque debe estar seguida por un punto y coma (``;``), que separa esta de las definiciones posteriores o la expresión de resultados. Sin embargo, un punto y coma se insertrá implícitamente al final de cada línea, a menos que una de las siguientes condiciones sea cierta.
+Cada definición de un bloque debe estar seguida por un *punto y coma* 
+(``;``), que separa esta de las definiciones posteriores o la expresión 
+de resultados. Sin embargo, un *punto y coma* se insertrá implícitamente 
+al final de cada línea, a menos que una de las siguientes condiciones 
+sea cierta:
 
 --------------------------------------------------------------------------------
 
@@ -340,11 +445,12 @@ Therefore, the following are all legal:
 Scala uses the usual block-structured scoping rules. A name defined in
 some outer block is visible also in some inner block, provided it is
 not redefined there. This rule permits us to simplify our
-``sqrt`` example. We need not pass ``x} around as an additional parameter of
+``sqrt`` example. We need not pass ``x`` around as an additional parameter of
 the nested functions, since it is always visible in them as a
-parameter of the outer function ``sqrt}. Here is the simplified code:
+parameter of the outer function ``sqrt``. Here is the simplified code:
 
 .. code-block:: scala
+   
    def sqrt(x: Double) = {
      def sqrtIter(guess: Double): Double =
        if (isGoodEnough(guess)) guess
