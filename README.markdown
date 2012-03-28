@@ -65,7 +65,11 @@ FAQ:
   corrección ortográfica para asegurar la calidad del documento.
   También deberías conocer la sintaxis de _reStructuredText_: 
   http://docutils.sourceforge.net/docs/user/rst/quickref.html
-   
+
+* **¿Cuándo podré generar un LaTeX con estos archivos?:** Cuando sea 
+  publicado *Docutils 0.9*, ya que en esa próxima versión es que el resaltado 
+  de sintáxis (usando Pygments) estará disponible, y no generará errores en el
+  *rst2latex*.
 
 * **Alguna pregunta?:** Con toda confianza, puedes preguntar desde un issue.
 
@@ -73,4 +77,4 @@ FAQ:
 
 --------------------------
 
-_Ultima modificación: sáb 24 mar 2012 20:05:14 COT_
+_Ultima modificación: mar 27 mar 2012 23:37:29 COT_
