@@ -468,14 +468,14 @@ Aquí está el código simplificado:
 
 
 
-Tail Recursion [#]_
--------------------
+Tail Recursion
+--------------
+
+[#]_ Considere la siguiente función para calcular el Máximo Común Divisor de dos 
+números dados.
 
 .. [#] NT: También se conoce como *"Tail Call"*, y en español sería algo así 
-   como: *"Recurción por cola"*, o *"Recurción al reves"*.
-
-Considere la siguiente función para calcular el Máximo Común Divisor de dos 
-números dados.
+   como: *"Recursión por cola"*, o *"Recursión al revés"*.
 
 .. code-block:: scala
    

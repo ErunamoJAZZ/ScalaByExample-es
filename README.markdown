@@ -43,7 +43,7 @@ FAQ:
 ----
 
 * **¿Dónde puedo descargar el PDF?**: El libro aun está en traducción, por lo 
-  que si quieres leerlo en PDF, deberás descargarel repositorio y hacerlo tú, 
+  que si quieres leerlo en PDF, deberás descargar el repositorio y hacerlo tú, 
   usando **Sphinx**, y el comando ``make latexpdf``. El PDF se generará 
   dentro de carpeta llamada _build_, y luego dentro de _latex_.
 
