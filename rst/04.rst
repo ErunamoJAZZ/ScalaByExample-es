@@ -465,50 +465,53 @@ Aquí está el código simplificado:
 
 .. >
 
-----------------------------------------------------------------------------
 
 
-Tail Recursion
---------------
 
-Consider the following function to compute the greatest common divisor
-of two given numbers.
+Tail Recursion [#]_
+-------------------
 
-.. code-block:: scala
+.. [#] NT: También se conoce como *"Tail Call"*, y en español sería algo así 
+   como: *"Recurción por cola"*, o *"Recurción al reves"*.
 
-   def gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a % b)
-
-
-Using our substitution model of function evaluation, 
-``gcd(14, 21)`` evaluates as follows:
-
+Considere la siguiente función para calcular el Máximo Común Divisor de dos 
+números dados.
 
 .. code-block:: scala
 
-   gcd(14, 21)
+   def mcd(a: Int, b: Int): Int = if (b == 0) a else mcd(b, a % b)
+
+
+
+Utilizando el modelo de sustitución para evaluar la función 
+``mcd(14, 21) ``, irá de la siguiente manera:
+
+.. code-block:: scala
+
+   mcd(14, 21)
    
-   →        if (21 == 0) 14 else gcd(21, 14 % 21)
-   →        if (false) 14 else gcd(21, 14 % 21)
-   →        gcd(21, 14 % 21)
-   →        gcd(21, 14)
-   →        if (14 == 0) 21 else gcd(14, 21 % 14)
-   →   →   gcd(14, 21 % 14)
-   →         gcd(14, 7)
-   →         if (7 == 0) 14 else gcd(7, 14 % 7)
-   →   →   gcd(7, 14 % 7)
-   →         gcd(7, 0)
-   →         if (0 == 0) 7 else gcd(0, 7 % 0)
+   →        if (21 == 0) 14 else mcd(21, 14 % 21)
+   →        if (false) 14 else mcd(21, 14 % 21)
+   →        mcd(21, 14 % 21)
+   →        mcd(21, 14)
+   →        if (14 == 0) 21 else mcd(14, 21 % 14)
+   →   →   mcd(14, 21 % 14)
+   →         mcd(14, 7)
+   →         if (7 == 0) 14 else mcd(7, 14 % 7)
+   →   →   mcd(7, 14 % 7)
+   →         mcd(7, 0)
+   →         if (0 == 0) 7 else mcd(0, 7 % 0)
    →   →   7
 
 
-Contrast this with the evaluation of another recursive function, 
+Esto contrasta con la evaluación de otra función recursiva, 
 ``factorial``:
 
 .. code-block:: scala
    def factorial(n: Int): Int = if (n == 0) 1 else n * factorial(n - 1)
 
 
-The application ``factorial(5)`` rewrites as follows:
+La aplicación ``factorial(5)`` se reescribe como sigue:
 
 .. code-block:: scala
    
@@ -525,25 +528,27 @@ The application ``factorial(5)`` rewrites as follows:
    →   →   120
 
 
-There is an important difference between the two rewrite sequences:
-The terms in the rewrite sequence of ``gcd`` have again and again
-the same form. As evaluation proceeds, their size is bounded by a
-constant. By contrast, in the evaluation of factorial we get longer
-and longer chains of operands which are then multiplied in the last
-part of the evaluation sequence.
+Hay una diferencia importante entre las dos secuencias de reescritura: 
+Los términos de la secuencia de reescritura de ``mcd``  tienen una y otra vez 
+la misma forma. A medida que avanza la evaluación, su tamaño se mantiene 
+constante. Por el contrario, en la evaluación del factorial, la cadena de 
+operaciones se hacen más y más larga para luego hacer la multiplicación en la 
+última parte de la secuencia de evaluación.
 
-Even though actual implementations of Scala do not work by rewriting
-terms, they nevertheless should have the same space behavior as in the
-rewrite sequences. In the implementation of ``gcd``, one notes that
-the recursive call to ``gcd`` is the last action performed in the
-evaluation of its body. One also says that ``gcd`` is
-``tail-recursive''. The final call in a tail-recursive function can be
-implemented by a jump back to the beginning of that function. The
-arguments of that call can overwrite the parameters of the current
-instantiation of ``gcd}, so that no new stack space is needed.
-Hence, tail recursive functions are iterative processes, which can be
-executed in constant space.
+A pesar de que las implementaciones actuales de Scala no trabajan por 
+reescritura de términos, sí debería tener ese mismo comportamiento en las 
+secuencias de reescritura. En la aplicación ``mcd`` , se observa que la 
+llamada recursiva a ``mcd``  es la última acción realizada en la evaluación de 
+su cuerpo. Se dice entonces que ``mcd`` es "tail-recursive" 
+(_Recursión por colas_). La llamada final en una función de recursión por 
+colas puede ser implementada con un salto de nuevo al comienzo de dicha 
+función. Los argumentos de la llamada pueden sobrescribir los parámetros de la 
+instancia actual de ``mcd``, de modo que no hay necesidad de pedir nuevo 
+espacio en la pila (_Stack_). Por lo tanto, las funciones de recursión por 
+colas son en el fondo, procesos iterativos que pueden ser ejecutados con un 
+espacio de memoria constante.
 
+-------------------------------------------------------------------------------
 By contrast, the recursive call in ``factorial`` is followed by a
 multiplication.  Hence, a new stack frame is allocated for the
 recursive instance of factorial, and is deallocated after that
