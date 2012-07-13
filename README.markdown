@@ -42,11 +42,16 @@ No sufras más, y lee:
 FAQ:
 ----
 
+* **¿Dónde puedo descargar el PDF?**: El libro aun está en traducción, por lo 
+  que si quieres leerlo en PDF, deberás descargarel repositorio y hacerlo tú, 
+  usando **Sphinx**, y el comando ``make latexpdf``. El PDF se generará 
+  dentro de carpeta llamada _build_, y luego dentro de _latex_.
+
 * **Si el original está en LaTeX, ¿Por qué se está escribiendo en .rst?:** 
   El libro lo estamos escribiendo usando la sintaxis _reStructuredText_, para 
   luego generar el PDF usando **Sphinx**, o **rst2pdf**.
   Usar el latex original nos ha traído muchas complicaciones a la hora de 
-  compilarlo por cuestiones con los fonts que se usan, etc.
+  compilarlo por cuestiones con los _fonts_ que se usan, etc.
   El que usemos _reStructuredText_ nos permite poder exportar el documento a 
   muchos otros medios, como el PDF ya mencionado, a páginas web, en incluso, 
   también a LaTeX.
@@ -61,19 +66,19 @@ FAQ:
 
 
 * **¿Qué necesito para editar el texto?:** Cualquier editor de texto está bien,
-  siempre y cuando tengas ortografía... en otro caso, es preferible uno con 
-  corrección ortográfica para asegurar la calidad del documento.
+  siempre y cuando tengas buena ortografía... en otro caso, es preferible 
+  uno con corrección ortográfica para asegurar la calidad del documento.
   También deberías conocer la sintaxis de _reStructuredText_: 
   http://docutils.sourceforge.net/docs/user/rst/quickref.html
 
-* **¿Cuándo podré generar un LaTeX con estos archivos?:** Puedes hacerlo usando
-  *Docutils 0.9*, ya que en esa versión es que el resaltado de sintáxis (usando 
-  Pygments) esta disponible, y no generará errores en el *rst2latex*.
+* **¿Cuándo podré generar un LaTeX con estos archivos?:** ¡Puedes hacerlo ya 
+  mismo!. Si tienes el programa **Sphinx** instalado y bien configurado, 
+  con un sencillo ``make latex`` podrás general el LaTeX del libro.
 
-* **Alguna pregunta?:** Con toda confianza, puedes preguntar desde un issue.
+* **¿Alguna pregunta?:** Con toda confianza, puedes preguntar desde un issue.
 
 
 
 --------------------------
 
-_Ultima modificación: vie 13 jul 2012 12:13:11 COT_
+_Ultima modificación: vie 13 jul 2012 16:37:55 COT_
