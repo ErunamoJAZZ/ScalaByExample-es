@@ -10,13 +10,13 @@ Acerca de Scala y el libro
 --------------------------
 
 Scala es un lenguaje de programación **funcional**/**orientado a objetos**, que
-funciona sobre la Máquina Virtual de Java (**JVM**). Nació como parte del trabajo
+trabaja sobre la Máquina Virtual de Java (**JVM**). Nació como parte del trabajo
 de _Martin Odersky_, profesor de la _École polytechnique fédérale de Lausanne_ 
 (EPFL) en Suiza.
 
 Se creó a raíz de la frustración que es programar en Java, esto hizo que Scala
 se diseñara con la facilidad de programación en mente, por lo que su sintaxis 
-es muy sencilla, también, al estar orientado a Objetos, es muy sencillo para un 
+es muy sencilla, también, al estar Orientado a Objetos, es muy sencillo para un 
 programador experto en Java hacer el salto, pero ya que también está orientado
 a la programación funcional, muchas veces usar dichas capacidades puede ser 
 "traumático" para el programador inexperto.
@@ -44,7 +44,7 @@ FAQ:
 
 * **Si el original está en LaTeX, ¿Por qué se está escribiendo en .rst?:** 
   El libro lo estamos escribiendo usando la sintaxis _reStructuredText_, para 
-  luego generar el PDF usando el programa **rst2pdf**.
+  luego generar el PDF usando **Sphinx**, o **rst2pdf**.
   Usar el latex original nos ha traído muchas complicaciones a la hora de 
   compilarlo por cuestiones con los fonts que se usan, etc.
   El que usemos _reStructuredText_ nos permite poder exportar el documento a 
@@ -56,7 +56,7 @@ FAQ:
    
 * **¿Cómo puedo colaborar?:** ¡¡Haz un folk de este repositorio!!, por favor,
   cuando empieces o te detengas de traducir un capítulo, avísanos desde un 
-  issue, y haz una solicitud de Pull una vez lo tengas terminado (o si 
+  issue, y haz una **solicitud de Pull** una vez lo tengas terminado (o si 
   definitivamente no lo vas a terminar, pero haz adelantado algo).
 
 
@@ -66,10 +66,9 @@ FAQ:
   También deberías conocer la sintaxis de _reStructuredText_: 
   http://docutils.sourceforge.net/docs/user/rst/quickref.html
 
-* **¿Cuándo podré generar un LaTeX con estos archivos?:** Cuando sea 
-  publicado *Docutils 0.9*, ya que en esa próxima versión es que el resaltado 
-  de sintáxis (usando Pygments) estará disponible, y no generará errores en el
-  *rst2latex*.
+* **¿Cuándo podré generar un LaTeX con estos archivos?:** Puedes hacerlo usando
+  *Docutils 0.9*, ya que en esa versión es que el resaltado de sintáxis (usando 
+  Pygments) esta disponible, y no generará errores en el *rst2latex*.
 
 * **Alguna pregunta?:** Con toda confianza, puedes preguntar desde un issue.
 
@@ -77,4 +76,4 @@ FAQ:
 
 --------------------------
 
-_Ultima modificación: mar 27 mar 2012 23:37:29 COT_
+_Ultima modificación: vie 13 jul 2012 12:13:11 COT_
