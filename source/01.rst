@@ -1,7 +1,5 @@
 Introducción
-============
-
-
+=============
 
 Scala es un lenguaje de programación que integra sin irregularidades los 
 paradigmas de programación orientada a objetos y de programación funcional. 

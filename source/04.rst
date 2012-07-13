@@ -478,9 +478,9 @@ Considere la siguiente función para calcular el Máximo Común Divisor de dos
 números dados.
 
 .. code-block:: scala
-
+   
    def mcd(a: Int, b: Int): Int = if (b == 0) a else mcd(b, a % b)
-
+  
 
 
 Utilizando el modelo de sustitución para evaluar la función 
@@ -540,7 +540,7 @@ reescritura de términos, sí debería tener ese mismo comportamiento en las
 secuencias de reescritura. En la aplicación ``mcd`` , se observa que la 
 llamada recursiva a ``mcd``  es la última acción realizada en la evaluación de 
 su cuerpo. Se dice entonces que ``mcd`` es "tail-recursive" 
-(_Recursión por colas_). La llamada final en una función de recursión por 
+(*Recursión por colas*). La llamada final en una función de recursión por 
 colas puede ser implementada con un salto de nuevo al comienzo de dicha 
 función. Los argumentos de la llamada pueden sobrescribir los parámetros de la 
 instancia actual de ``mcd``, de modo que no hay necesidad de pedir nuevo 
@@ -549,6 +549,7 @@ colas son en el fondo, procesos iterativos que pueden ser ejecutados con un
 espacio de memoria constante.
 
 -------------------------------------------------------------------------------
+
 By contrast, the recursive call in ``factorial`` is followed by a
 multiplication.  Hence, a new stack frame is allocated for the
 recursive instance of factorial, and is deallocated after that
@@ -556,7 +557,8 @@ instance has finished. The given formulation of the factorial function
 is not tail-recursive; it needs space proportional to its input
 parameter for its execution.
 
-More generally, if the last action of a function is a call to another
+
+More generally, if the last action of a function is a call to another 
 (possibly the same) function, only a single stack frame is needed for
 both functions. Such calls are called ``tail calls''. In principle,
 tail calls can always re-use the stack frame of the calling function.
@@ -568,7 +570,9 @@ last action is a call to itself.  Other tail calls might be optimized
 also, but one should not rely on this across implementations.
 
 .. \begin{exercise} 
+
 Design a tail-recursive version of ``factorial``.
+
 ..\end{exercise}
 
 
