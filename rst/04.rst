@@ -407,26 +407,27 @@ de resultados. Sin embargo, un *punto y coma* se insertrá implícitamente
 al final de cada línea, a menos que una de las siguientes condiciones 
 sea cierta:
 
---------------------------------------------------------------------------------
 
-* Either the line in question ends in a word such as a period or an infix-operator which would not be legal as the end of an expression.
+* Cualquiera de las líneas en cuestión termina en una palabra como un 
+  punto o un operador-infijo que no sea legal al final de una expresión.
 
-* Or the next line begins with a word that cannot start a expression.
+* O que la siguiente línea comience con una palabra con la que no puede 
+  iniciar una expresión.
 
-* Or we are inside parentheses :math:`(...)` or brackets, because these cannot contain multiple statements anyway.
+* O si estamos dentro de paréntesis :math:`(...)` progresivo o soportes,
+  ya que estos no pueden contener múltiples sentencias de todos modos.
 
-
-Therefore, the following are all legal:
+Por lo tanto, los siguientes son todos los requisitos legales:
 
 .. code-block:: scala
 
    def f(x: Int) = x + 1;
    f(1) + f(2)
 
-   def g1(x: Int) = x + 1
+   def g(x: Int) = x + 1
    g(1) + g(2)
 
-   def g2(x: Int) = {x + 1};  /* `;' mandatory */ g2(1) + g2(2)
+   def g2(x: Int) = {x + 1}; g2(1) + g2(2) /* ';' obligatoro */
 
    def h1(x) = 
      x + 
@@ -434,20 +435,20 @@ Therefore, the following are all legal:
    h1(1) * h1(2)
 
    def h2(x: Int) = (
-     x     // parentheses mandatory, otherwise a semicolon
-     + y   // would be inserted after the `x'.
+     x     // los paréntesis son obligatorios, de lo contrario 
+     + y   // un punto y coma se inserta después de la 'x'.
    )
    h2(1) / h2(2)
 
 
 
-
-Scala uses the usual block-structured scoping rules. A name defined in
-some outer block is visible also in some inner block, provided it is
-not redefined there. This rule permits us to simplify our
-``sqrt`` example. We need not pass ``x`` around as an additional parameter of
-the nested functions, since it is always visible in them as a
-parameter of the outer function ``sqrt``. Here is the simplified code:
+Scala utiliza las reglas habituales para estructuras de bloques. Un nombre 
+definido en algún bloque exterior es visible también por los bloques 
+interiores, siempre que se no se haya redefinido allí. Esta regla nos permite, 
+por ejemplo, simplificar ``sqrt``. No tenemos que pasar ``x`` alrededor como 
+un parámetro adicional en las funciones anidadas, ya que será siempre visible 
+en ellas al ser un parámetro de la función externa ``sqrt``. 
+Aquí está el código simplificado:
 
 .. code-block:: scala
    
@@ -463,6 +464,8 @@ parameter of the outer function ``sqrt``. Here is the simplified code:
    }
 
 .. >
+
+----------------------------------------------------------------------------
 
 
 Tail Recursion
