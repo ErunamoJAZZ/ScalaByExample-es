@@ -1,0 +1,556 @@
+First-Class Functions
+=====================
+
+A function in Scala is a “first-class value”. Like any other value, it
+may be passed as a parameter or returned as a result. Functions which
+take other functions as parameters or return them as results are called
+*higher-order* functions. This chapter introduces higher-order functions
+and shows how they provide a flexible mechanism for program composition.
+
+As a motivating example, consider the following three related tasks:
+
+#. Write a function to sum all integers between two given numbers and :
+
+   .. code-block:: scala
+
+          def sumInts(a: Int, b: Int): Int =
+            if (a > b) 0 else a + sumInts(a + 1, b)
+
+#. Write a function to sum the squares of all integers between two given
+   numbers and:
+
+   .. code-block:: scala
+
+          def square(x: Int): Int = x * x
+          def sumSquares(a: Int, b: Int): Int =
+            if (a > b) 0 else square(a) + sumSquares(a + 1, b)
+
+#. Write a function to sum the powers :math:`2^n` of all integers
+   :math:`n` between two given numbers and :
+
+   .. code-block:: scala
+
+          def powerOfTwo(x: Int): Int = if (x == 0) 1 else 2 * powerOfTwo(x - 1)
+          def sumPowersOfTwo(a: Int, b: Int): Int =
+            if (a > b) 0 else powerOfTwo(a) + sumPowersOfTwo(a + 1, b)
+
+These functions are all instances of :math:`\sum^b_a f(n)` for different
+values of :math:`f`. We can factor out the common pattern by defining a
+function :
+
+.. code-block:: scala
+
+    def sum(f: Int => Int, a: Int, b: Int): Int =
+      if (a > b) 0 else f(a) + sum(f, a + 1, b)
+
+The type is the type of functions that take arguments of type and return
+results of type . So is a function which takes another function as a
+parameter. In other words, is a *higher-order* function.
+
+Using , we can formulate the three summing functions as follows.
+
+.. code-block:: scala
+
+    def sumInts(a: Int, b: Int): Int = sum(id, a, b)
+    def sumSquares(a: Int, b: Int): Int = sum(square, a, b)
+    def sumPowersOfTwo(a: Int, b: Int): Int = sum(powerOfTwo, a, b)
+
+where
+
+.. code-block:: scala
+
+    def id(x: Int): Int = x
+    def square(x: Int): Int = x * x
+    def powerOfTwo(x: Int): Int = if (x == 0) 1 else 2 * powerOfTwo(x - 1)
+
+Anonymous Functions
+-------------------
+
+Parameterization by functions tends to create many small functions. In
+the previous example, we defined , and as separate functions, so that
+they could be passed as arguments to .
+
+Instead of using named function definitions for these small argument
+functions, we can formulate them in a shorter way as *anonymous
+functions*. An anonymous function is an expression that evaluates to a
+function; the function is defined without giving it a name. As an
+example consider the anonymous square function:
+
+.. code-block:: scala
+
+      (x: Int) => x * x
+
+The part before the arrow ‘’ are the parameters of the function, whereas
+the part following the ‘’ is its body. For instance, here is an
+anonymous function which multiples its two arguments.
+
+.. code-block:: scala
+
+      (x: Int, y: Int) => x * y
+
+Using anonymous functions, we can reformulate the first two summation
+functions without named auxiliary functions:
+
+.. code-block:: scala
+
+    def sumInts(a: Int, b: Int): Int = sum((x: Int) => x, a, b)
+    def sumSquares(a: Int, b: Int): Int = sum((x: Int) => x * x, a, b)
+
+Often, the Scala compiler can deduce the parameter type(s) from the
+context of the anonymous function in which case they can be omitted. For
+instance, in the case of or , one knows from the type of that the first
+parameter must be a function of type . Hence, the parameter type is
+redundant and may be omitted. If there is a single parameter without a
+type, we may also omit the parentheses around it:
+
+.. code-block:: scala
+
+    def sumInts(a: Int, b: Int): Int = sum(x => x, a, b)
+    def sumSquares(a: Int, b: Int): Int = sum(x => x * x, a, b)
+
+Generally, the Scala term :math:`_1`\ :math:`_1`\ :math:`_n`\ :math:`_n`
+defines a function which maps its parameters :math:`_1`\ :math:`_n` to
+the result of the expression (where may refer to
+:math:`_1`\ :math:`_n`). Anonymous functions are not essential language
+elements of Scala, as they can always be expressed in terms of named
+functions. Indeed, the anonymous function
+
+.. code-block:: scala
+
+    (x$_1$: T$_1$, ..., x$_n$: T$_n$) => E
+
+is equivalent to the block
+
+.. code-block:: scala
+
+    { def f (x$_1$: T$_1$, ..., x$_n$: T$_n$) = E ; f _ }
+
+where is fresh name which is used nowhere else in the program. We also
+say, anonymous functions are “syntactic sugar”.
+
+Currying
+--------
+
+The latest formulation of the summing functions is already quite
+compact. But we can do even better. Note that and appear as parameters
+and arguments of every function but they do not seem to take part in
+interesting combinations. Is there a way to get rid of them?
+
+Let’s try to rewrite so that it does not take the bounds and as
+parameters:
+
+.. code-block:: scala
+
+    def sum(f: Int => Int): (Int, Int) => Int = {
+      def sumF(a: Int, b: Int): Int =
+        if (a > b) 0 else f(a) + sumF(a + 1, b)
+      sumF
+    }
+
+In this formulation, is a function which returns another function,
+namely the specialized summing function . This latter function does all
+the work; it takes the bounds and as parameters, applies ’s function
+parameter to all integers between them, and sums up the results.
+
+Using this new formulation of , we can now define:
+
+.. code-block:: scala
+
+    def sumInts  =  sum(x => x)
+    def sumSquares  =  sum(x => x * x)
+    def sumPowersOfTwo  =  sum(powerOfTwo)
+
+Or, equivalently, with value definitions:
+
+.. code-block:: scala
+
+    val sumInts  =  sum(x => x)
+    val sumSquares  =  sum(x => x * x)
+    val sumPowersOfTwo  =  sum(powerOfTwo)
+
+, , and can be applied like any other function. For instance,
+
+.. code-block:: scala
+
+    scala> sumSquares(1, 10) + sumPowersOfTwo(10, 20)
+    unnamed0: Int = 2096513
+
+How are function-returning functions applied? As an example, in the
+expression
+
+.. code-block:: scala
+
+    sum(x => x * x)(1, 10) ,
+
+the function is applied to the squaring function . The resulting
+function is then applied to the second argument list, .
+
+This notation is possible because function application associates to the
+left. That is, if :math:`\mbox{args}_1` and :math:`\mbox{args}_2` are
+argument lists, then f(\ :sub:`1`)(\ :sub:`2`) &     &
+(f(:sub:`1`))(\ :sub:`2`) In our example, is equivalent to the following
+expression: .
+
+The style of function-returning functions is so useful that Scala has
+special syntax for it. For instance, the next definition of is
+equivalent to the previous one, but is shorter:
+
+.. code-block:: scala
+
+    def sum(f: Int => Int)(a: Int, b: Int): Int =
+      if (a > b) 0 else f(a) + sum(f)(a + 1, b)
+
+Generally, a curried function definition
+
+.. code-block:: scala
+
+    def f (args$_1$) ... (args$_n$) = E
+
+where :math:`n > 1` expands to
+
+.. code-block:: scala
+
+    def f (args$_1$) ... (args$_{n-1}$) = { def g (args$_n$) = E ; g }
+
+where is a fresh identifier. Or, shorter, using an anonymous function:
+
+.. code-block:: scala
+
+    def f (args$_1$) ... (args$_{n-1}$) = ( args$_n$ ) => E .
+
+Performing this step :math:`n` times yields that
+
+.. code-block:: scala
+
+    def f (args$_1$) ... (args$_n$) = E
+
+is equivalent to
+
+.. code-block:: scala
+
+    def f = (args$_1$) => ... => (args$_n$) => E .
+
+Or, equivalently, using a value definition:
+
+.. code-block:: scala
+
+    val f = (args$_1$) => ... => (args$_n$) => E .
+
+This style of function definition and application is called *currying*
+after its promoter, Haskell B. Curry, a logician of the 20th century,
+even though the idea goes back further to Moses Schönfinkel and Gottlob
+Frege.
+
+The type of a function-returning function is expressed analogously to
+its parameter list. Taking the last formulation of as an example, the
+type of is . This is possible because function types associate to the
+right. I.e.
+
+.. code-block:: scala
+
+    T$_1$ => T$_2$ => T$_3$       $\mbox{is equivalent to}$     T$_1$ => (T$_2$ => T$_3$)
+
+1. The function uses a linear recursion. Can you write a tail-recursive
+one by filling in the ??’s?
+
+.. code-block:: scala
+
+    def sum(f: Int => Int)(a: Int, b: Int): Int = {
+      def iter(a: Int, result: Int): Int = {
+        if (??) ??
+        else iter(??, ??)
+      }
+      iter(??, ??)
+    }
+
+Write a function that computes the product of the values of functions at
+points over a given range.
+
+Write in terms of .
+
+Can you write an even more general function which generalizes both and ?
+
+Example: Finding Fixed Points of Functions
+------------------------------------------
+
+A number is called a *fixed point* of a function if
+
+.. code-block:: scala
+
+    f(x) = x .
+
+For some functions we can locate the fixed point by beginning with an
+initial guess and then applying repeatedly, until the value does not
+change anymore (or the change is within a small tolerance). This is
+possible if the sequence
+
+.. code-block:: scala
+
+    x, f(x), f(f(x)), f(f(f(x))), ...
+
+converges to fixed point of :math:`f`. This idea is captured in the
+following “fixed-point finding function”:
+
+.. code-block:: scala
+
+    val tolerance = 0.0001
+    def isCloseEnough(x: Double, y: Double) = abs((x - y) / x) < tolerance
+    def fixedPoint(f: Double => Double)(firstGuess: Double) = {
+      def iterate(guess: Double): Double = {
+        val next = f(guess)
+        if (isCloseEnough(guess, next)) next
+        else iterate(next)
+      }
+      iterate(firstGuess)
+    }
+
+We now apply this idea in a reformulation of the square root function.
+Let’s start with a specification of :
+
+.. code-block:: scala
+
+    sqrt(x)  =  $\mbox{the {\sl y} such that}$  y * y = x
+             =  $\mbox{the {\sl y} such that}$  y = x / y
+
+Hence, is a fixed point of the function . This suggests that can be
+computed by fixed point iteration:
+
+.. code-block:: scala
+
+    def sqrt(x: double) = fixedPoint(y => x / y)(1.0)
+
+But if we try this, we find that the computation does not converge.
+Let’s instrument the fixed point function with a print statement which
+keeps track of the current value:
+
+.. code-block:: scala
+
+    def fixedPoint(f: Double => Double)(firstGuess: Double) = {
+      def iterate(guess: Double): Double = {
+        val next = f(guess)
+        println(next)
+        if (isCloseEnough(guess, next)) next
+        else iterate(next)
+      }
+      iterate(firstGuess)
+    }
+
+Then, yields:
+
+.. code-block:: scala
+
+      2.0
+      1.0
+      2.0
+      1.0
+      2.0
+      ...
+
+One way to control such oscillations is to prevent the guess from
+changing too much. This can be achieved by *averaging* successive values
+of the original sequence:
+
+.. code-block:: scala
+
+    scala> def sqrt(x: Double) = fixedPoint(y => (y + x/y) / 2)(1.0)
+    sqrt: (Double)Double
+
+    scala> sqrt(2.0)
+      1.5
+      1.4166666666666665
+      1.4142156862745097
+      1.4142135623746899
+      1.4142135623746899
+
+In fact, expanding the function yields exactly our previous definition
+of fixed point from Section [sec:sqrt].
+
+The previous examples showed that the expressive power of a language is
+considerably enhanced if functions can be passed as arguments. The next
+example shows that functions which return functions can also be very
+useful.
+
+Consider again fixed point iterations. We started with the observation
+that :math:`\sqrt(x)` is a fixed point of the function . Then we made
+the iteration converge by averaging successive values. This technique of
+*average damping* is so general that it can be wrapped in another
+function.
+
+.. code-block:: scala
+
+    def averageDamp(f: Double => Double)(x: Double) = (x + f(x)) / 2
+
+Using , we can reformulate the square root function as follows.
+
+.. code-block:: scala
+
+    def sqrt(x: Double) = fixedPoint(averageDamp(y => x/y))(1.0)
+
+This expresses the elements of the algorithm as clearly as possible.
+
+Write a function for cube roots using and .
+
+Summary
+-------
+
+We have seen in the previous chapter that functions are essential
+abstractions, because they permit us to introduce general methods of
+computing as explicit, named elements in our programming language. The
+present chapter has shown that these abstractions can be combined by
+higher-order functions to create further abstractions. As programmers,
+we should look out for opportunities to abstract and to reuse. The
+highest possible level of abstraction is not always the best, but it is
+important to know abstraction techniques, so that one can use
+abstractions where appropriate.
+
+Language Elements Seen So Far
+-----------------------------
+
+Chapters [chap:simple-funs] and [chap:first-class-funs] have covered
+Scala’s language elements to express expressions and types comprising of
+primitive data and functions. The context-free syntax of these language
+elements is given below in extended Backus-Naur form, where ‘’ denotes
+alternatives, denotes option (0 or 1 occurrence), and ``{...}`` denotes
+repetition (0 or more occurrences).
+
+Characters
+~~~~~~~~~~
+
+Scala programs are sequences of (Unicode) characters. We distinguish the
+following character sets:
+
+-  whitespace, such as ‘’, tabulator, or newline characters,
+
+-  letters ‘’ to ‘’, ‘’ to ‘’,
+
+-  digits to ‘’,
+
+-  the delimiter characters
+
+.. code-block:: scala
+
+       .    ,    ;    (    )    {    }    [    ]    \    $\mbox{\tt "}$    '
+
+-  operator characters, such as ‘’ ‘’, ‘’. Essentially, these are
+   printable characters which are in none of the character sets above.
+
+Lexemes:
+~~~~~~~~
+
+.. code-block:: scala
+
+    ident    =  letter {letter | digit}
+             |  operator { operator }
+             |  ident '_' ident
+    literal  =  $\mbox{``as in Java''}$
+
+Literals are as in Java. They define numbers, characters, strings, or
+boolean values. Examples of literals as , , , , or .
+
+Identifiers can be of two forms. They either start with a letter, which
+is followed by a (possibly empty) sequence of letters or symbols, or
+they start with an operator character, which is followed by a (possibly
+empty) sequence of operator characters. Both forms of identifiers may
+contain underscore characters ‘’. Furthermore, an underscore character
+may be followed by either sort of identifier. Hence, the following are
+all legal identifiers:
+
+.. code-block:: scala
+
+    x     Room10a     +     --     foldl_:     +_vector
+
+It follows from this rule that subsequent operator-identifiers need to
+be separated by whitespace. For instance, the input is parsed as the
+three token sequence , , . If we want to express the sum of with the
+negated value of , we need to add at least one space, e.g. .
+
+The ``$`` character is reserved for compiler-generated identifiers; it
+should not be used in source programs. The following are reserved words,
+they may not be used as identifiers:
+
+.. code-block:: scala
+
+    abstract    case        catch       class       def    
+    do          else        extends     false       final    
+    finally     for         if          implicit    import      
+    match       new         null        object      override    
+    package     private     protected   requires    return      
+    sealed      super       this        throw       trait
+    try         true        type        val         var         
+    while       with        yield
+    _    :    =    =>    <-    <:    <%     >:    #    @
+
+Types:
+~~~~~~
+
+.. code-block:: scala
+
+    Type          =  SimpleType | FunctionType
+    FunctionType  =  SimpleType '=>' Type | '(' [Types] ')' '=>' Type
+    SimpleType    =  Byte | Short | Char | Int | Long | Float | Double |
+                     Boolean | Unit | String
+    Types         =  Type {`,' Type}
+
+Types can be:
+
+-  number types , , , , , and (these are as in Java),
+
+-  the type with values and ,
+
+-  the type with the only value ``()``,
+
+-  the type ,
+
+-  function types such as or .
+
+Expressions:
+~~~~~~~~~~~~
+
+.. code-block:: scala
+
+    Expr         = InfixExpr | FunctionExpr | if '(' Expr ')' Expr else Expr
+    InfixExpr    = PrefixExpr | InfixExpr Operator InfixExpr
+    Operator     = ident
+    PrefixExpr   = ['+' | '-' | '!' | '~' ] SimpleExpr
+    SimpleExpr   = ident | literal | SimpleExpr '.' ident | Block
+    FunctionExpr = (Bindings | Id) '=>' Expr
+    Bindings     = `(' Binding {`,' Binding} `)'
+    Binding      = ident [':' Type]
+    Block        = '{' {Def ';'} Expr '}'
+
+Expressions can be:
+
+-  identifiers such as , , , or ,
+
+-  literals, such as , , or ,
+
+-  field and method selections, such as ,
+
+-  function applications, such as ,
+
+-  operator applications, such as or ,
+
+-  conditionals, such as ,
+
+-  blocks, such as ``{ val x = abs(y) ; x * 2 }``,
+
+-  anonymous functions, such as or .
+
+Definitions:
+~~~~~~~~~~~~
+
+.. code-block:: scala
+
+    Def          =  FunDef  |  ValDef
+    FunDef       =  'def' ident {'(' [Parameters] ')'} [':' Type] '=' Expr
+    ValDef       =  'val' ident [':' Type] '=' Expr
+    Parameters   =  Parameter {',' Parameter}
+    Parameter    =  ident ':' ['=>'] Type
+
+Definitions can be:
+
+-  function definitions such as ,
+
+-  value definitions such as .
+
+

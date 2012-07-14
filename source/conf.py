@@ -174,7 +174,11 @@ latex_elements = {
 #'papersize': 'letterpaper',
 
 # The font size ('10pt', '11pt' or '12pt').
-#'pointsize': '10pt',
+'pointsize': '11pt',
+
+'fontpkg': '\\usepackage{bookman}',
+
+'fncychap': '\\usepackage[Conny]{fncychap}', 
 
 # Additional stuff for the LaTeX preamble.
 #'preamble': '',
@@ -213,7 +217,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('ScalaByExample', 'scalaatravsdeejemplos', u'Scala a través de Ejemplos',
+    ('ScalaByExample', 'ScalaATravesDeEjemplos', u'Scala a través de Ejemplos',
      [u'Martin Odersky'], 1)
 ]
 
@@ -228,8 +232,8 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('ScalaByExample', 'ScalaatravsdeEjemplos', u'Scala a través de Ejemplos',
-   u'Martin Odersky', 'ScalaatravsdeEjemplos', 'One line description of project.',
-   'Miscellaneous'),
+   u'Martin Odersky', 'ScalaatravsdeEjemplos', 
+   'Traducción de libro Scala by Example', 'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.
@@ -246,7 +250,7 @@ texinfo_documents = [
 
 # Bibliographic Dublin Core info.
 epub_title = u'Scala a través de Ejemplos'
-epub_author = u'C. Daniel Sanchez R.'
+epub_author = u'Martin Odersky'
 epub_publisher = u'C. Daniel Sanchez R.'
 epub_copyright = u'2012, C. Daniel Sanchez R.'
 

@@ -544,7 +544,7 @@ su cuerpo. Se dice entonces que ``mcd`` es "tail-recursive"
 colas puede ser implementada con un salto de nuevo al comienzo de dicha 
 función. Los argumentos de la llamada pueden sobrescribir los parámetros de la 
 instancia actual de ``mcd``, de modo que no hay necesidad de pedir nuevo 
-espacio en la pila (_Stack_). Por lo tanto, las funciones de recursión por 
+espacio en la pila (*Stack*). Por lo tanto, las funciones de recursión por 
 colas son en el fondo, procesos iterativos que pueden ser ejecutados con un 
 espacio de memoria constante.
 
