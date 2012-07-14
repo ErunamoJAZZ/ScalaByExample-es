@@ -14,18 +14,19 @@ trabaja sobre la Máquina Virtual de Java (**JVM**). Nació como parte del traba
 de _Martin Odersky_, profesor de la _École polytechnique fédérale de Lausanne_ 
 (EPFL) en Suiza.
 
-Se creó a raíz de la frustración que es programar en Java, esto hizo que Scala
+Se creó a raíz de la frustración que es programar en Java. Esto hizo que Scala
 se diseñara con la facilidad de programación en mente, por lo que su sintaxis 
-es muy sencilla, también, al estar Orientado a Objetos, es muy sencillo para un 
-programador experto en Java hacer el salto, pero ya que también está orientado
-a la programación funcional, muchas veces usar dichas capacidades puede ser 
-"traumático" para el programador inexperto.
+es muy sencilla, también, al ser Orientado a Objetos, es muy sencillo para un 
+programador experto en Java hacer el salto hacia el lenguaje, 
+pero ya que también está orientado hacia la programación funcional, 
+muchas veces usar dichas capacidades puede ser 
+"traumático" para el programador inexperto en este paradigma.
 
-Por eso, _Scala by Example_ es uno de los libros referencia cuando se está
+Por eso, _Scala by Example_ es uno de los libros de referencia cuando se está
 aprendiendo este maravilloso lenguaje de programación, ya que lo introduce 
-a partir de ejemplos de forma completa y fiel al lenguaje de forma pragmática, 
+a partir de ejemplos, de forma completa, y fiel al lenguaje (de forma pragmática), 
 con ejemplos muy conocidos, y con otros no tanto, pero que serán útiles 
-y hasta cruciales, a la hora de enfrentar verdaderos retos a futuro.
+y hasta cruciales a la hora de enfrentar verdaderos retos a futuro.
 
 
 
@@ -53,7 +54,7 @@ FAQ:
   Usar el latex original nos ha traído muchas complicaciones a la hora de 
   compilarlo por cuestiones con los _fonts_ que se usan, etc.
   El que usemos _reStructuredText_ nos permite poder exportar el documento a 
-  muchos otros medios, como el PDF ya mencionado, a páginas web, en incluso, 
+  muchos otros medios, como el PDF ya mencionado, a páginas web, e incluso, 
   también a LaTeX.
   También, está el "plus" de poder colorear la sintaxis del código de los
   ejemplos del libro.
@@ -81,4 +82,4 @@ FAQ:
 
 --------------------------
 
-_Ultima modificación: vie 13 jul 2012 16:37:55 COT_
+_Ultima modificación: sáb 14 jul 2012 14:47:36 COT_

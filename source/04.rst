@@ -484,7 +484,7 @@ números dados.
 
 
 Utilizando el modelo de sustitución para evaluar la función 
-``mcd(14, 21) ``, irá de la siguiente manera:
+``mcd(14, 21)``, irá de la siguiente manera:
 
 .. code-block:: scala
 
