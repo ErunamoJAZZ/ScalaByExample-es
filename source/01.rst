@@ -41,7 +41,7 @@ Reconocimiento
 --------------
 
 Estamos en gran deuda con el maravilloso libro *"Structure and Interpretation 
-of Computer Programs"* \cite{abelson-sussman:structure} de Abelson y Sussman.
+of Computer Programs"* [ASS96]_ de Abelson y Sussman.
 Muchos de sus ejemplos y ejercicios también están presentes aquí. Por supuesto, 
 al trabajar con nuestro lenguaje, se ha cambiado de Scheme a Scala en cada caso. 
 Además, los ejemplos hacen uso de los constructos orientados a objetos donde es 
@@ -51,4 +51,8 @@ apropiado.
 
 .. _capítulo 2: `Un primer ejemplo`_
 .. _capítulo 3: `Programando con Actores y Mensajes`_
+
+.. [ASS96] Harold Abelson, Gerald Jay Sussman, and Julie Sussman. The 
+           Structure and Interpretation of Computer Programs, 2nd 
+           edition. MIT Press, Cambridge, Massachusetts, 1996.
 

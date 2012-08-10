@@ -548,31 +548,31 @@ espacio en la pila (*Stack*). Por lo tanto, las funciones de recursión por
 colas son en el fondo, procesos iterativos que pueden ser ejecutados con un 
 espacio de memoria constante.
 
--------------------------------------------------------------------------------
+Por el contrario, la llamada recursiva en ``factorial`` está seguida por una
+multiplicación. Por lo tanto, un nuevo espacio de pila es asignado a la 
+instancia recursiva del factorial, y se cancela la asignación después de esa 
+instancia haya terminado. La formulación dada de la función factorial no es 
+*tail-recursive*, sino que necesita un espacio proporcional a su parámetro de 
+entrada para su ejecución.
 
-By contrast, the recursive call in ``factorial`` is followed by a
-multiplication.  Hence, a new stack frame is allocated for the
-recursive instance of factorial, and is deallocated after that
-instance has finished. The given formulation of the factorial function
-is not tail-recursive; it needs space proportional to its input
-parameter for its execution.
-
-
-More generally, if the last action of a function is a call to another 
-(possibly the same) function, only a single stack frame is needed for
-both functions. Such calls are called ``tail calls''. In principle,
-tail calls can always re-use the stack frame of the calling function.
-However, some run-time environments (such as the Java VM) lack the
-primitives to make stack frame re-use for tail calls efficient.  A
-production quality Scala implementation is therefore only required to
-re-use the stack frame of a directly tail-recursive function whose
-last action is a call to itself.  Other tail calls might be optimized
-also, but one should not rely on this across implementations.
+En general, si la última acción de una función es una llamada a otra función 
+(posiblemente ella misma), sólo un espacio en la pila se necesita para ambas 
+funciones. Estas llamadas se conocen como *"tail calls"* ("llamadas por colas", 
+en español). En principio, las *tail calls* siempre puede volver a utilizar el 
+espacio de pila de la función de llamada. Sin embargo, algunos entornos de 
+tiempo de ejecución (por ejemplo, la Máquina Virtual de Java) carecen de los 
+primitivos para usar nuevamente el espacio de pila en las *tail calls* de forma 
+eficiente. 
+Por lo tanto, una implementación de calidad para producción en Scala, sólo 
+necesitaría utilizar el espacio de pila de una función directamente en una de 
+*tail-recursive* cuya última acción es una llamada a sí misma. El resto de *tail 
+calls* puede ser optimizado también, pero uno no debe confiarse en esta 
+implementacion.
 
 .. \begin{exercise} 
 
-Design a tail-recursive version of ``factorial``.
+Diseñe una función *tail-recursive* para ``factorial``.
 
-..\end{exercise}
+.. \end{exercise}
 
 

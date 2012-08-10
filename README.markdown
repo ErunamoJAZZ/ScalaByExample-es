@@ -47,6 +47,8 @@ FAQ:
   que si quieres leerlo en PDF, deberás descargar el repositorio y hacerlo tú, 
   usando **Sphinx**, y el comando ``make latexpdf``. El PDF se generará 
   dentro de carpeta llamada _build_, y luego dentro de _latex_.
+  En la sección de descargas de GitHub también hay un PDF, pero ten la certeza 
+  de que estará desactualizado.
 
 * **Si el original está en LaTeX, ¿Por qué se está escribiendo en .rst?:** 
   El libro lo estamos escribiendo usando la sintaxis _reStructuredText_, para 
@@ -63,7 +65,7 @@ FAQ:
 * **¿Cómo puedo colaborar?:** ¡¡Haz un folk de este repositorio!!, por favor,
   cuando empieces o te detengas de traducir un capítulo, avísanos desde un 
   issue, y haz una **solicitud de Pull** una vez lo tengas terminado (o si 
-  definitivamente no lo vas a terminar, pero haz adelantado algo).
+  definitivamente no lo vas a terminar, pero has adelantado algo).
 
 
 * **¿Qué necesito para editar el texto?:** Cualquier editor de texto está bien,
@@ -71,6 +73,8 @@ FAQ:
   uno con corrección ortográfica para asegurar la calidad del documento.
   También deberías conocer la sintaxis de _reStructuredText_: 
   http://docutils.sourceforge.net/docs/user/rst/quickref.html
+  O también:
+  http://openalea.gforge.inria.fr/doc/openalea/doc/_build/html/source/sphinx/rest_syntax.html
 
 * **¿Cuándo podré generar un LaTeX con estos archivos?:** ¡Puedes hacerlo ya 
   mismo!. Si tienes el programa **Sphinx** instalado y bien configurado, 
@@ -82,4 +86,4 @@ FAQ:
 
 --------------------------
 
-_Ultima modificación: sáb 14 jul 2012 14:47:36 COT_
+_Ultima modificación: vie 10 ago 2012 13:28:42 COT_
