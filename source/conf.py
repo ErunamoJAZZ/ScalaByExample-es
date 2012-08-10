@@ -174,9 +174,10 @@ latex_elements = {
 #'papersize': 'letterpaper',
 
 # The font size ('10pt', '11pt' or '12pt').
-'pointsize': '11pt',
+'pointsize': '12pt',
 
-'fontpkg': '\\usepackage{bookman}',
+#'fontpkg': '\\usepackage{bookman}',
+'fontpkg': '\\usepackage{libertine}',
 
 'fncychap': '\\usepackage[Conny]{fncychap}', 
 
