@@ -1,23 +1,18 @@
-First-Class Functions
-=====================
+Funciones de Orden Superior
+===========================
 
-A function in Scala is a “first-class value”. Like any other value, it
-may be passed as a parameter or returned as a result. Functions which
-take other functions as parameters or return them as results are called
-*higher-order* functions. This chapter introduces higher-order functions
-and shows how they provide a flexible mechanism for program composition.
+Una función en la Scala es un "valor de primea clase" (En inglés, *"first-class value"*). Al igual que cualquier otro valor, este se puede pasar como un parámetro, o se puede devolver como un resultado. Las funciones que tienen otras funciones como parámetros o que las devuelven como resultado, son lo que conocemos como funciones de *orden superior*. Este capítulo presenta las funciones de orden superior y muestra cómo estas ofrecen un mecanismo flexible para la composición de programas.
 
-As a motivating example, consider the following three related tasks:
+Comenzando con un ejemplo motivador, considere estas tres tareas que están relacionadas:
 
-#. Write a function to sum all integers between two given numbers and :
+#. Escribir una función para sumar todos los números enteros entre dos números *a* y *b*:
 
    .. code-block:: scala
 
           def sumInts(a: Int, b: Int): Int =
             if (a > b) 0 else a + sumInts(a + 1, b)
 
-#. Write a function to sum the squares of all integers between two given
-   numbers and:
+#. Escribir una función para sumar los cuadrados de todos los enteros entre dos números dados *a* y *b*:
 
    .. code-block:: scala
 
@@ -25,8 +20,7 @@ As a motivating example, consider the following three related tasks:
           def sumSquares(a: Int, b: Int): Int =
             if (a > b) 0 else square(a) + sumSquares(a + 1, b)
 
-#. Write a function to sum the powers :math:`2^n` of all integers
-   :math:`n` between two given numbers and :
+#. Escribir una función para sumar las potencias :math:`2^n` de todos los enteros :math:`n` entre dos números dados *a* y *b*:
 
    .. code-block:: scala
 
@@ -34,20 +28,18 @@ As a motivating example, consider the following three related tasks:
           def sumPowersOfTwo(a: Int, b: Int): Int =
             if (a > b) 0 else powerOfTwo(a) + sumPowersOfTwo(a + 1, b)
 
-These functions are all instances of :math:`\sum^b_a f(n)` for different
-values of :math:`f`. We can factor out the common pattern by defining a
-function :
+
+Estas funciones son todas instancias de :math:`\sum^b_a f(n)` pero con diferentes valores de :math:`f`. Podemos factorizar el patrón común mediante la definición de una función:
 
 .. code-block:: scala
 
     def sum(f: Int => Int, a: Int, b: Int): Int =
       if (a > b) 0 else f(a) + sum(f, a + 1, b)
 
-The type is the type of functions that take arguments of type and return
-results of type . So is a function which takes another function as a
-parameter. In other words, is a *higher-order* function.
 
-Using , we can formulate the three summing functions as follows.
+El tipo `Int => Int` es el tipo de funciones que toman argumentos de tipo `Int` y devuelve resultados de tipo `Int`. Así `sum` es una función que tiene otra función como un parámetro. En otras palabras, `sum` es una función de *orden superior*.
+
+Usando eso, podemos formular las tres funciones de sumando de la siguiente manera.
 
 .. code-block:: scala
 
@@ -55,7 +47,7 @@ Using , we can formulate the three summing functions as follows.
     def sumSquares(a: Int, b: Int): Int = sum(square, a, b)
     def sumPowersOfTwo(a: Int, b: Int): Int = sum(powerOfTwo, a, b)
 
-where
+donde
 
 .. code-block:: scala
 
@@ -63,8 +55,9 @@ where
     def square(x: Int): Int = x * x
     def powerOfTwo(x: Int): Int = if (x == 0) 1 else 2 * powerOfTwo(x - 1)
 
-Anonymous Functions
--------------------
+
+Funciones Anónimas
+------------------
 
 Parameterization by functions tends to create many small functions. In
 the previous example, we defined , and as separate functions, so that
